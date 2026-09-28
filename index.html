@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Frontier AI Briefing — September 2026</title>
+<meta name="description" content="Frontier AI labs, security incidents, safety voices, US regulation, physical AI, recursive self-improvement, and agent control-plane themes. Research briefing by Ken Huang. Not investment advice. 中英双语。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20role%3D%22img%22%20aria-label%3D%22Frontier%20AI%20security%22%3E%20%3C%21--%20ink%20tile%20--%3E%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230b0e14%22%2F%3E%20%3C%21--%20security%20shield%20--%3E%20%3Cpath%20d%3D%22M32%2010%20L50%2018%20V34%20C50%2044%2042%2052%2032%2056%20C22%2052%2014%2044%2014%2034%20V18%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23ff6a2b%22%20stroke-width%3D%223.2%22%20stroke-linejoin%3D%22round%22%2F%3E%20%3C%21--%20control-plane%20layers%20--%3E%20%3Cpath%20d%3D%22M22%2028%20H42%22%20stroke%3D%22%23ffb454%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cpath%20d%3D%22M24%2035%20H40%22%20stroke%3D%22%23ff6a2b%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.85%22%2F%3E%20%3Cpath%20d%3D%22M26%2042%20H38%22%20stroke%3D%22%23ffb454%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.7%22%2F%3E%20%3C%21--%20agent%20%2F%20frontier%20node%20--%3E%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2228%22%20r%3D%223.4%22%20fill%3D%22%23ff6a2b%22%2F%3E%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2242%22%20r%3D%222.4%22%20fill%3D%22%23ffb454%22%2F%3E%20%3C%2Fsvg%3E" />
+<style>
+/* ===== style.css ===== */
+/* ============ MAESTRO slide deck — GauntletAI-inspired ============ */
+:root{
+  --ink:#0b0e14; --ink-2:#11151f; --paper:#fdfcf9; --paper-2:#f4f1ea;
+  --line:#e6e1d6; --text:#1c1f26; --muted:#5d6470;
+  --accent:#ff6a2b; --accent-2:#ffb454;
+  --blue:#1971c2; --red:#e03131; --green:#2f9e44; --teal:#0c8599;
+  --violet:#9c36b5; --orange:#f08c00; --grape:#7048e8;
+  --shadow:0 10px 40px rgba(11,14,20,.10);
+  --hand:'Kalam',cursive; --bar-h:54px; --ctrl-h:62px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--ink);
+  line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.08;margin:0}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;height:var(--bar-h);z-index:40;display:flex;
+  align-items:center;gap:1rem;padding:0 4vw;background:rgba(11,14,20,.92);
+  border-bottom:1px solid #1d2330;color:#eceef2;backdrop-filter:blur(8px)}
+.bar__brand{font-family:'Space Grotesk';font-weight:700;letter-spacing:.04em;font-size:1.05rem}
+.bar__logo{color:var(--accent)}
+.bar__title{font-family:var(--hand);color:var(--accent-2);font-size:1.05rem;margin:0 auto}
+.bar__cta{font-size:.85rem;font-weight:600;color:#fff;background:var(--accent);
+  padding:.4rem 1rem;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(255,106,43,.35)}
+
+/* ---------- deck / slides ---------- */
+.deck{position:fixed;top:var(--bar-h);left:0;right:0;bottom:var(--ctrl-h);overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:2.2vh 4vw;background:var(--paper);opacity:0;visibility:hidden;
+  transform:translateX(40px);transition:opacity .45s ease,transform .45s ease,visibility .45s}
+.slide.is-active{opacity:1;visibility:visible;transform:none;z-index:2}
+.slide.is-prev{transform:translateX(-40px)}
+.slide--alt{background:var(--paper-2)}
+.slide--dark{background:radial-gradient(1100px 600px at 78% -10%,#1c2436 0%,var(--ink) 60%);color:#eceef2}
+.slide__in{width:100%;max-width:1080px;max-height:100%;display:flex;flex-direction:column;justify-content:center}
+.slide__in.center{align-items:center;text-align:center}
+
+/* ---------- typography ---------- */
+.kicker{font-family:var(--hand);color:var(--accent);font-size:clamp(1rem,2.4vh,1.25rem)}
+.kicker--light{color:var(--accent-2)}
+.h2{font-size:clamp(1.5rem,4.4vh,2.7rem);font-weight:700;letter-spacing:-.02em;margin:.2rem 0 .6rem}
+.h2--light{color:#fff}
+.h2sub{font-weight:400;font-size:.55em}
+.h3{font-size:clamp(1rem,2.4vh,1.25rem);font-weight:600;margin-bottom:.5rem}
+.lead{font-size:clamp(.95rem,2.2vh,1.15rem);color:var(--muted);max-width:820px;margin:.2rem 0 .4rem}
+.lead--light{color:#aab1bf}
+.muted{color:var(--muted)}
+.link{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:2px solid rgba(255,106,43,.3)}
+.link--sm{font-size:.5em;vertical-align:middle;margin-left:.4rem}
+
+/* ---------- title slide ---------- */
+.slide--title{background:radial-gradient(1200px 600px at 75% -10%,#1c2436 0%,var(--ink) 55%);color:#f5f6f8}
+.hero__grid{position:absolute;inset:0;opacity:.3;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(800px 480px at 60% 30%,#000,transparent 75%)}
+.eyebrow{position:relative;display:inline-block;font-family:var(--hand);font-size:clamp(.95rem,2.3vh,1.1rem);
+  color:var(--accent-2);border:1.5px dashed rgba(255,180,84,.5);padding:.25rem .9rem;border-radius:999px;
+  margin-bottom:1.4vh;transform:rotate(-1deg)}
+.hero__title{position:relative;font-size:clamp(3.4rem,15vh,9rem);font-weight:700;letter-spacing:-.03em;
+  background:linear-gradient(120deg,#fff 30%,var(--accent) 110%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero__acronym{position:relative;font-family:var(--hand);font-size:clamp(1rem,2.8vh,1.5rem);
+  margin:.4vh 0 0;color:#cdd2db;letter-spacing:.01em}
+.hero__acronym b{color:var(--accent-2);font-weight:700}
+.hero__sub{position:relative;font-size:clamp(1.1rem,3.4vh,1.9rem);font-weight:400;margin:.6vh 0 2.2vh;color:#cdd2db}
+.hero__sub strong{color:#fff;font-weight:600}
+.hero__by{position:relative;color:#9aa2b1;font-size:clamp(.9rem,2.2vh,1.05rem)}
+.hero__by strong{color:#fff}
+.hero__site{position:relative;display:inline-block;margin-top:1.4vh;font-family:var(--hand);
+  font-size:clamp(.95rem,2.2vh,1.15rem);color:var(--accent-2);text-decoration:none;
+  border-bottom:1.5px solid rgba(255,180,84,.4);transition:color .2s,border-color .2s}
+.hero__site:hover{color:#fff;border-color:#fff}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1.25fr .75fr;gap:3vw;margin-top:1.4vh;align-items:center}
+.about__list{list-style:none;padding:0;margin:0;display:grid;gap:1vh}
+.about__list li{display:flex;gap:.7rem;align-items:center;font-size:clamp(.85rem,2vh,1.02rem);
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:.7vh 1rem;box-shadow:var(--shadow)}
+.about__list span{font-size:1.1rem}
+.about__books img{border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.about__books figcaption{font-family:var(--hand);text-align:center;color:var(--muted);margin-top:.6vh;font-size:.9rem}
+
+/* ---------- why ---------- */
+.why__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:1.6vw;margin-top:1.2vh;min-height:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.4vh 1.2vw;box-shadow:var(--shadow)}
+.card--draw{background:linear-gradient(180deg,#fff,#fdfbf6);display:flex;flex-direction:column}
+.ftable{width:100%;border-collapse:collapse;font-size:clamp(.7rem,1.55vh,.86rem);margin-top:.4vh}
+.ftable th{text-align:left;font-family:'Space Grotesk';font-size:.72rem;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--muted);padding:.5vh .4rem;border-bottom:2px solid var(--line)}
+.ftable td{padding:.7vh .4rem;border-bottom:1px solid var(--line);vertical-align:middle;color:#3a3f49}
+.tag{display:inline-block;color:#fff;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:6px;font-family:'Space Grotesk'}
+.tag--blue{background:var(--blue)}.tag--orange{background:var(--orange)}.tag--green{background:var(--green)}
+.tag--teal{background:var(--teal)}.tag--violet{background:var(--violet)}
+
+/* ---------- drawings ---------- */
+.draw{width:100%;display:flex;justify-content:center;min-height:0}
+.draw svg{width:100%;height:auto;display:block;overflow:visible}
+.draw--hero{flex:1;margin-top:1vh;align-items:center}
+.draw--hero svg{max-height:64vh;width:auto;max-width:100%}
+.card--draw .draw{flex:1;align-items:center}
+.card--draw .draw svg{max-height:46vh;width:auto;max-width:100%}
+
+/* ---------- tool ---------- */
+.tool__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw;margin-top:1.4vh}
+.mock{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.8vh .8vw;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+.mock .draw svg{max-height:46vh}
+.cap{font-family:var(--hand);color:var(--muted);text-align:center;margin:.6vh 0 .2vh;font-size:clamp(.8rem,1.8vh,.98rem)}
+
+/* ---------- contact ---------- */
+.contact{display:grid;grid-template-columns:1.15fr .85fr;gap:4vw;align-items:center}
+.contact__card img{border-radius:16px;max-width:300px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.sources{margin-top:1.6vh;display:flex;flex-direction:column;gap:.5vh}
+.sources__label{font-family:var(--hand);color:var(--accent-2);font-size:.95rem;margin-bottom:.2vh}
+.sources a{color:#cdd2db;font-size:clamp(.8rem,1.8vh,.95rem);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.15);width:fit-content;transition:color .2s,border-color .2s}
+.sources a:hover{color:var(--accent-2);border-color:var(--accent-2)}
+.btn{display:inline-block;margin-top:2vh;padding:.7rem 1.3rem;border-radius:999px;font-weight:600;
+  font-size:.95rem;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn--accent{background:var(--accent);color:#fff;box-shadow:0 6px 20px rgba(255,106,43,.35)}
+
+/* ---------- controls ---------- */
+.ctrl{position:fixed;left:0;right:0;bottom:0;height:var(--ctrl-h);z-index:40;display:flex;
+  align-items:center;justify-content:center;gap:1.2rem;padding:0 4vw;
+  background:rgba(11,14,20,.92);border-top:1px solid #1d2330;backdrop-filter:blur(8px)}
+.ctrl__btn{font-family:'Space Grotesk';font-weight:600;font-size:.95rem;color:#eceef2;
+  background:#1b2230;border:1px solid #2a3344;border-radius:999px;padding:.55rem 1.3rem;cursor:pointer;
+  transition:transform .12s,background .2s}
+.ctrl__btn:hover{transform:translateY(-2px);background:#222a3a}
+.ctrl__btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ctrl__btn--accent{background:var(--accent);border-color:var(--accent);color:#fff;
+  box-shadow:0 6px 18px rgba(255,106,43,.35)}
+.ctrl__count{font-family:var(--hand);color:#9aa2b1;font-size:1rem;min-width:54px;text-align:center}
+.dots{display:flex;gap:.5rem}
+.dot{width:9px;height:9px;border-radius:50%;background:#39435a;border:none;padding:0;cursor:pointer;transition:all .2s}
+.dot.is-on{background:var(--accent);transform:scale(1.25)}
+.progress{position:fixed;left:0;bottom:0;height:3px;background:var(--accent);width:0;z-index:41;transition:width .35s}
+
+/* ---------- responsive ---------- */
+@media(max-width:820px){
+  .about,.why__grid,.contact{grid-template-columns:1fr;gap:1.4vh}
+  .about__books,.contact__card{display:none}
+  .tool__grid{grid-template-columns:1fr}
+  .mock:nth-child(n+2){display:none}
+  .ftable{font-size:.72rem}
+  .bar__title{display:none}
+  .draw--hero svg{max-height:54vh}
+}
+@media(max-width:560px){
+  .ctrl__count{display:none}
+  .dots{display:none}
+}
+
+/* ===== diagrams.css ===== */
+/* =========================================================================
+   HTML diagrams + animations for the slide deck.
+   Plain HTML/CSS — no SVG, no JS. A diagram lives inside a slide and animates
+   when that slide gains .is-active, so it replays every time you present.
+
+   Building blocks (compose freely):
+     .dg            diagram wrapper (column, centred)
+     .dg-row        horizontal track of cards (wraps on small screens)
+     .dg-col        vertical stack of cards
+     .dg-card       a labelled card; set colour with style="--c:var(--blue)"
+     .dg-card.dg-sm compact card (title only)
+     .dg-arrow      connector glyph between cards  (use ➜)
+     .dg-cap        small hand-drawn caption above a diagram
+     .dg-note       muted footnote under a diagram
+     .dg-score      big-number stat card           (style="--c:var(--green)")
+     .dg-chart > .dg-group > .dg-bars > .dg-bar     bar chart
+                    .dg-bar style="--h:88%;--c:var(--green)"  + <span>label</span><small>x</small>
+     .dg-mock       browser-window mockup frame (.dg-mock__bar / __title / __body)
+     .dg-memrow     a row inside a mockup (.dg-tag + <p>)
+   Add .dg-stagger to any row/col to reveal its children one-by-one.
+   Respects prefers-reduced-motion.
+   ========================================================================= */
+
+.dg{display:flex;flex-direction:column;align-items:center;gap:1.6vh;width:100%;margin-top:1vh;min-height:0}
+.dg-cap{font-family:var(--hand);color:var(--accent);font-size:clamp(.9rem,2vh,1.1rem)}
+.dg-note{font-family:var(--hand);color:var(--muted);font-size:clamp(.82rem,1.8vh,1rem);text-align:center;max-width:64ch}
+.slide--dark .dg-note{color:#aab1bf}
+
+.dg-row{display:flex;align-items:stretch;justify-content:center;gap:clamp(8px,1.1vw,16px);flex-wrap:wrap;width:100%}
+.dg-col{display:flex;flex-direction:column;gap:10px;justify-content:center}
+
+.dg-card{--c:var(--blue);flex:1 1 0;min-width:140px;border:2px solid var(--c);border-radius:16px;
+  padding:1.4vh 1.1vw;box-shadow:var(--shadow);background:color-mix(in srgb,var(--c) 9%,#fff)}
+.slide--dark .dg-card{background:color-mix(in srgb,var(--c) 24%,var(--ink-2));color:#eceef2}
+.dg-card h4{font-family:'Space Grotesk',sans-serif;color:var(--c);margin:0 0 .35rem;
+  font-size:clamp(1rem,2.4vh,1.3rem);letter-spacing:-.01em}
+.slide--dark .dg-card h4{color:color-mix(in srgb,var(--c) 55%,#fff)}
+.dg-card p{margin:0;font-size:clamp(.8rem,1.75vh,1rem);line-height:1.45;color:var(--muted)}
+.slide--dark .dg-card p{color:#aab1bf}
+.dg-card.dg-sm{flex:0 0 auto;padding:1vh 1.1vw;text-align:center}
+.dg-card.dg-sm h4{margin:0}
+
+/* animated data-flow connector: marching dashes toward an arrowhead.
+   (the ➜ glyph in markup is hidden; the flow is drawn with pseudo-elements) */
+.dg-arrow{position:relative;align-self:center;flex:0 0 clamp(30px,4vw,68px);height:16px;
+  font-size:0;color:transparent;overflow:visible}
+.dg-arrow::before{content:"";position:absolute;top:50%;left:0;right:8px;height:3px;transform:translateY(-50%);
+  border-radius:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 16px);
+  background-size:16px 100%;animation:dgMarch .7s linear infinite}
+.dg-arrow::after{content:"";position:absolute;top:50%;right:0;transform:translateY(-50%);
+  width:0;height:0;border-left:9px solid var(--accent);border-top:6px solid transparent;border-bottom:6px solid transparent}
+@keyframes dgMarch{to{background-position:16px 0}}
+
+/* big-number stat */
+.dg-score{--c:var(--green);flex:1 1 0;min-width:170px;border:2.5px solid var(--c);border-radius:18px;
+  padding:2vh 1vw;text-align:center;box-shadow:var(--shadow);background:color-mix(in srgb,var(--c) 9%,#fff)}
+.slide--dark .dg-score{background:color-mix(in srgb,var(--c) 22%,var(--ink-2))}
+.dg-score b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--c);
+  font-size:clamp(2.6rem,8vh,4.4rem);line-height:1}
+.dg-score h4{margin:.6vh 0 .2vh;font-family:'Space Grotesk',sans-serif;font-size:clamp(.95rem,2.1vh,1.15rem)}
+.slide--dark .dg-score h4{color:#fff}
+.dg-score p{margin:0;font-size:clamp(.78rem,1.7vh,.95rem);color:var(--muted)}
+.slide--dark .dg-score p{color:#aab1bf}
+
+/* bar chart */
+.dg-chart{display:flex;gap:clamp(20px,4vw,64px);align-items:flex-end;justify-content:center;width:100%}
+.dg-group{display:flex;flex-direction:column;align-items:center}
+.dg-bars{display:flex;align-items:flex-end;gap:clamp(8px,1vw,16px);height:32vh}
+.dg-bar{position:relative;width:clamp(34px,4vw,58px);border-radius:9px 9px 0 0;
+  background:var(--c,var(--blue));height:0;align-self:flex-end}
+.dg-bar span{position:absolute;top:-2.7vh;left:-20%;right:-20%;text-align:center;font-family:'Space Grotesk';
+  font-weight:700;font-size:clamp(.85rem,1.9vh,1.1rem);color:var(--c)}
+.dg-bar small{position:absolute;bottom:-3vh;left:-30%;right:-30%;text-align:center;
+  font-size:clamp(.7rem,1.5vh,.85rem);color:var(--muted)}
+.slide--dark .dg-bar small{color:#aab1bf}
+.dg-label{font-family:'Space Grotesk';font-weight:700;margin-top:3.4vh;color:var(--text)}
+.slide--dark .dg-label{color:#eceef2}
+
+/* browser-window mockup */
+.dg-mock{width:min(840px,100%);border:2px solid var(--muted);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow);background:#fff}
+.slide--dark .dg-mock{background:var(--ink-2)}
+.dg-mock__bar{display:flex;align-items:center;gap:7px;padding:.9vh 1rem;
+  background:color-mix(in srgb,var(--muted) 14%,#fff);border-bottom:1px solid color-mix(in srgb,var(--muted) 30%,#fff)}
+.slide--dark .dg-mock__bar{background:#0e1422;border-color:#1d2330}
+.dg-mock__bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.dg-mock__title{font-family:var(--hand);margin:0 auto;color:var(--muted);font-size:.98rem}
+.dg-mock__body{padding:1.6vh 1.2rem;display:flex;flex-direction:column;gap:1.1vh}
+.dg-mock__top{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.dg-pill{--c:var(--accent);border:1.5px solid var(--c);color:var(--c);border-radius:8px;
+  padding:.5vh .8rem;font-weight:600;font-size:clamp(.78rem,1.7vh,.95rem);
+  background:color-mix(in srgb,var(--c) 10%,transparent)}
+.dg-memrow{display:flex;gap:12px;align-items:flex-start;border-radius:10px;padding:1vh 1rem;
+  border:1px solid color-mix(in srgb,var(--muted) 25%,#fff);background:color-mix(in srgb,var(--muted) 5%,#fff)}
+.slide--dark .dg-memrow{background:#131b2d;border-color:#1d2330;color:#eceef2}
+.dg-tag{--c:var(--green);flex:0 0 auto;border:1.4px solid var(--c);color:var(--c);border-radius:7px;
+  padding:.2vh .6rem;font-family:'Space Grotesk';font-weight:700;font-size:.72rem;
+  background:color-mix(in srgb,var(--c) 16%,transparent)}
+.dg-memrow p{margin:0;font-size:clamp(.8rem,1.7vh,.96rem)}
+
+/* ---------- animations: hidden until the slide is active ---------- */
+@keyframes dgRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes dgPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes dgGrow{from{height:0}to{height:var(--h,60%)}}
+
+/* non-staggered blocks reveal as a unit */
+.dg .dg-row:not(.dg-stagger), .dg .dg-chart, .dg .dg-mock, .dg .dg-cap, .dg .dg-note{opacity:0}
+.slide.is-active .dg .dg-row:not(.dg-stagger),
+.slide.is-active .dg .dg-chart,
+.slide.is-active .dg .dg-mock,
+.slide.is-active .dg .dg-cap,
+.slide.is-active .dg .dg-note{animation:dgRise .55s cubic-bezier(.2,.7,.3,1) both;animation-delay:.08s}
+
+/* staggered children */
+.dg-stagger>*{opacity:0}
+.slide.is-active .dg-stagger>*{animation:dgRise .5s cubic-bezier(.2,.7,.3,1) both}
+.slide.is-active .dg-stagger>:nth-child(1){animation-delay:.12s}
+.slide.is-active .dg-stagger>:nth-child(2){animation-delay:.24s}
+.slide.is-active .dg-stagger>:nth-child(3){animation-delay:.36s}
+.slide.is-active .dg-stagger>:nth-child(4){animation-delay:.48s}
+.slide.is-active .dg-stagger>:nth-child(5){animation-delay:.60s}
+.slide.is-active .dg-stagger>:nth-child(6){animation-delay:.72s}
+.slide.is-active .dg-stagger>:nth-child(7){animation-delay:.84s}
+.slide.is-active .dg-stagger>:nth-child(8){animation-delay:.96s}
+/* scores pop instead of rise */
+.slide.is-active .dg-row.dg-stagger .dg-score{animation-name:dgPop}
+
+/* bars grow up */
+.slide.is-active .dg-bar{animation:dgGrow .9s cubic-bezier(.2,.7,.3,1) forwards}
+.slide.is-active .dg-bars .dg-bar:nth-child(2){animation-delay:.12s}
+.slide.is-active .dg-bars .dg-bar:nth-child(3){animation-delay:.24s}
+.slide.is-active .dg-bars .dg-bar:nth-child(4){animation-delay:.36s}
+
+@media(prefers-reduced-motion:reduce){
+  .dg *{animation:none!important;opacity:1!important;transform:none!important}
+  .dg-arrow::before,.dg-arrow::after{animation:none!important}
+  .dg-bar{height:var(--h,60%)!important}
+}
+
+</style>
+<style>
+  html[data-lang="zh"] body { font-family: 'Noto Sans SC', 'Inter', system-ui, sans-serif; }
+  html[data-lang="zh"] .lang-en { display: none !important; }
+  html[data-lang="en"] .lang-zh { display: none !important; }
+
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #2a3344;
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .lang-toggle .lang-btn {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #aab1bf;
+    background: #1b2230;
+    border: 0;
+    padding: .35rem .75rem;
+    cursor: pointer;
+  }
+  .lang-toggle .lang-btn + .lang-btn { border-left: 1px solid #2a3344; }
+  .lang-toggle .lang-btn.is-active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .lang-toggle .lang-btn:hover:not(.is-active) { color: #eceef2; background: #222a3a; }
+  .bar__actions {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    flex-shrink: 0;
+  }
+
+  .disclaimer {
+    margin: 1.4vh auto 0;
+    max-width: 62ch;
+    font-size: clamp(.72rem, 1.55vh, .88rem);
+    color: #9aa2b1;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .slide:not(.slide--dark):not(.slide--title) .disclaimer { color: var(--muted); }
+  .src {
+    margin: 1vh 0 0;
+    font-size: clamp(.7rem, 1.45vh, .82rem);
+    color: var(--muted);
+  }
+  .slide--dark .src { color: #8b93a3; }
+  .tbl-mini {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.2vh;
+    font-size: clamp(.78rem, 1.7vh, .95rem);
+  }
+  .tbl-mini th, .tbl-mini td {
+    border-bottom: 1px solid var(--line, #e6e1d6);
+    padding: .55vh .6vw;
+    text-align: left;
+    vertical-align: top;
+  }
+  .slide--dark .tbl-mini th, .slide--dark .tbl-mini td { border-color: #2a3344; color: #cdd2db; }
+  .tbl-mini th {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+    font-size: clamp(.8rem, 1.75vh, .95rem);
+  }
+  .slide--dark .tbl-mini th { color: #fff; }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(12px, 2vw, 28px);
+    width: 100%;
+    margin-top: 1vh;
+  }
+  @media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+  .alink {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,106,43,.35);
+    word-break: break-all;
+  }
+  .slide--dark .alink { color: var(--accent-2); border-bottom-color: rgba(255,180,84,.4); }
+  .alink:hover { border-bottom-color: currentColor; }
+  .link-list {
+    list-style: none;
+    padding: 0;
+    margin: .6vh 0 0;
+    display: grid;
+    gap: .35vh;
+    font-size: clamp(.68rem, 1.45vh, .82rem);
+    line-height: 1.35;
+    text-align: left;
+  }
+  .link-list li { color: var(--muted); }
+  .slide--dark .link-list li { color: #aab1bf; }
+  .link-list b {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    color: var(--text);
+    font-weight: 600;
+    margin-right: .35rem;
+  }
+  .slide--dark .link-list b { color: #eceef2; }
+  .ex-tag {
+    display: inline-block;
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: clamp(.72rem, 1.5vh, .85rem);
+    font-weight: 700;
+    color: var(--accent);
+    border: 1.5px solid rgba(255,106,43,.45);
+    border-radius: 999px;
+    padding: .15rem .7rem;
+    margin-left: .4rem;
+    vertical-align: middle;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: clamp(14px, 2.2vw, 32px);
+    align-items: start;
+    margin-top: 1vh;
+    width: 100%;
+  }
+  @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-bio {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: .55vh;
+  }
+  .about-bio li {
+    font-size: clamp(.78rem, 1.7vh, .95rem);
+    line-height: 1.35;
+    color: var(--muted);
+    padding: .55vh .8rem;
+    background: #fff;
+    border: 1px solid var(--line, #e6e1d6);
+    border-radius: 10px;
+  }
+  .about-bio li strong { color: var(--text); font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif; }
+  .about-side { display: flex; flex-direction: column; gap: 1.2vh; align-items: center; }
+  .about-photo {
+    width: min(180px, 28vw);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 2px solid var(--accent);
+    box-shadow: var(--shadow);
+  }
+  .about-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+  }
+  .about-links a {
+    font-size: clamp(.72rem, 1.5vh, .85rem);
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  .books-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(14px, 2.5vw, 36px);
+    width: 100%;
+    margin-top: 1.2vh;
+  }
+  @media (max-width: 700px) { .books-pair { grid-template-columns: 1fr; } }
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 2px solid var(--line, #e6e1d6);
+    border-radius: 18px;
+    padding: 1.6vh 1.2vw 1.8vh;
+    box-shadow: var(--shadow);
+    transition: transform .15s, border-color .2s;
+  }
+  .book-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .book-card img {
+    width: min(200px, 28vw);
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(11,14,20,.18);
+    margin-bottom: 1.2vh;
+  }
+  .book-card .tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(.7rem, 1.45vh, .82rem);
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: .4vh;
+  }
+  .book-card h4 {
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    font-size: clamp(1rem, 2.3vh, 1.25rem);
+    margin: 0 0 .4vh;
+    color: var(--text);
+  }
+  .book-card p {
+    margin: 0;
+    font-size: clamp(.75rem, 1.55vh, .88rem);
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <span class="bar__brand"><span class="bar__logo">◆</span>
+    <span class="lang-en">Frontier AI Briefing</span>
+    <span class="lang-zh">前沿人工智能简报</span>
+  </span>
+  <span class="bar__title" id="slideTitle"></span>
+  <div class="bar__actions">
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" class="lang-btn is-active" id="langEnBtn" data-lang="en" title="English">EN</button>
+      <button type="button" class="lang-btn" id="langZhBtn" data-lang="zh" title="中文">中文</button>
+    </div>
+    <a class="bar__cta" href="https://kenhuangus.substack.com" target="_blank" rel="noopener">Substack ↗</a>
+  </div>
+</header>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · title -->
+  <section class="slide slide--title" data-title="" data-title-zh="">
+    <div class="slide__in center">
+      <div class="hero__grid"></div>
+      <span class="eyebrow">
+        <span class="lang-en">Research briefing · September 2026</span>
+        <span class="lang-zh">研究简报 · 2026年9月</span>
+      </span>
+      <h1 class="hero__title">
+        <span class="lang-en">Frontier AI, Security &amp; Control Planes</span>
+        <span class="lang-zh">前沿人工智能、安全与控制平面</span>
+      </h1>
+      <p class="hero__sub">
+        <span class="lang-en">Labs · incidents · safety voices · US regulation · physical AI · recursive self-improvement</span>
+        <span class="lang-zh">实验室 · 安全事件 · 安全声音 · 美国监管 · 物理人工智能 · 递归自我改进</span>
+      </p>
+      <p class="hero__by">
+        <span class="lang-en">Presented by <strong>Ken Huang</strong> · Adjunct Professor, University of San Francisco</span>
+        <span class="lang-zh">演讲人：<strong>黄连金 (Ken Huang)</strong> · 旧金山大学 (USF) 客座教授</span>
+      </p>
+      <p class="disclaimer">
+        <span class="lang-en">Not investment advice. For informational research only. Advisor relationships are disclosed where relevant.</span>
+        <span class="lang-zh">不构成投资建议。仅供研究参考。相关顾问身份将在相应页面披露。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 2 · about speaker (from agentic-ai-2026-predictions #2) -->
+  <section class="slide slide--alt" data-title="About the Speaker" data-title-zh="演讲嘉宾">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Speaker</span>
+        <span class="lang-zh">嘉宾介绍</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">About the Speaker: Ken Huang, CISSP</span>
+        <span class="lang-zh">演讲嘉宾：黄连金 (Ken Huang), CISSP</span>
+      </h2>
+      <div class="about-grid">
+        <ul class="about-bio">
+          <li><span class="lang-en"><strong>AI book author and speaker</strong> (Harness Engineering, MAESTRO)</span><span class="lang-zh"><strong>人工智能图书作者与演讲人</strong>（Harness Engineering、MAESTRO）</span></li>
+          <li><span class="lang-en"><strong>Adjunct Professor</strong>, University of San Francisco (USF)</span><span class="lang-zh"><strong>旧金山大学 (USF) 客座教授</strong></span></li>
+          <li><span class="lang-en"><strong>OWASP AIVSS</strong> Project Lead · Core member, OWASP Top 10 for LLM Applications</span><span class="lang-zh"><strong>OWASP AIVSS</strong> 项目负责人 · OWASP LLM 应用 Top 10 核心成员</span></li>
+          <li><span class="lang-en"><strong>Fellow and co-chair</strong> of two CSA AI Safety working groups</span><span class="lang-zh">云安全联盟 (CSA) 两个<strong>人工智能安全工作组</strong>研究员与联合主席</span></li>
+          <li><span class="lang-en"><strong>AIUC-1</strong> Consortium Member · Grant reviewer, Schmidt Sciences</span><span class="lang-zh"><strong>AIUC-1</strong> 联盟成员 · Schmidt Sciences 资助评审人</span></li>
+          <li><span class="lang-en"><strong>EC-Council</strong> instructor — Generative AI for Cyber Security</span><span class="lang-zh"><strong>EC-Council</strong> 讲师 — 生成式人工智能网络安全</span></li>
+          <li><span class="lang-en"><strong>CEO</strong>, DistributedApps.ai</span><span class="lang-zh"><strong>DistributedApps.ai</strong> 首席执行官</span></li>
+        </ul>
+        <div class="about-side">
+          <img class="about-photo" src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/ken-head-shot.png" alt="Ken Huang" />
+          <div class="about-links">
+            <a href="https://www.usfca.edu/faculty/ken-huang" target="_blank" rel="noopener">USF ↗</a>
+            <a href="https://distributedapps.ai/" target="_blank" rel="noopener">DistributedApps.ai ↗</a>
+            <a href="https://kenhuangus.substack.com" target="_blank" rel="noopener">Substack ↗</a>
+            <a href="https://www.linkedin.com/in/kenhuang8" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener"><span class="lang-en">Source slide ↗</span><span class="lang-zh">来源幻灯片 ↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · recent books (from agentic-ai-2026-predictions #18) -->
+  <section class="slide" data-title="Recent Books" data-title-zh="近期著作">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Latest books</span>
+        <span class="lang-zh">最新著作</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Recent Books</span>
+        <span class="lang-zh">近期著作</span>
+      </h2>
+      <p class="lead">
+        <span class="lang-en">Graph Engineering for Agentic AI Systems · Harness Engineering</span>
+        <span class="lang-zh">《Graph Engineering for Agentic AI Systems》·《Harness Engineering》</span>
+      </p>
+      <div class="books-pair">
+        <a class="book-card" href="https://www.amazon.com/dp/B0HHZVDQQY" target="_blank" rel="noopener" title="Graph Engineering for Agentic AI Systems">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/graph_engineering_book.jpg" alt="Graph Engineering for Agentic AI Systems" />
+          <div class="tag">Kindle · B0HHZVDQQY</div>
+          <h4>Graph Engineering for Agentic AI Systems</h4>
+          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+        </a>
+        <a class="book-card" href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener" title="Harness Engineering">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/harness_engineering_book.jpg" alt="Harness Engineering" />
+          <div class="tag">Kindle · B0HF3F86YM</div>
+          <h4>Harness Engineering</h4>
+          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+        </a>
+      </div>
+      <p class="src" style="text-align:center;margin-top:1.4vh">
+        <span class="lang-en">Source: <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">agentic-ai-2026-predictions #18</a>
+        · Author store: <a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon author page</a></span>
+        <span class="lang-zh">来源：<a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">agentic-ai-2026-predictions #18</a>
+        · 作者主页：<a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon 作者页</a></span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 · agenda -->
+  <section class="slide" data-title="Agenda" data-title-zh="议程">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Roadmap</span>
+        <span class="lang-zh">路线图</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Six blocks for this briefing</span>
+        <span class="lang-zh">本简报六个板块</span>
+      </h2>
+      <p class="lead">
+        <span class="lang-en">From frontier-lab status through regulation, control-plane products, physical AI, and recursive self-improvement.</span>
+        <span class="lang-zh">从前沿实验室现状，到监管、控制平面产品、物理人工智能与递归自我改进。</span>
+      </p>
+      <div class="dg">
+        <div class="dg-cap">
+          <span class="lang-en">reading order</span>
+          <span class="lang-zh">阅读顺序</span>
+        </div>
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">01 Labs</span><span class="lang-zh">01 实验室</span></h4>
+            <p><span class="lang-en">OpenAI, Anthropic, DeepMind, Meta, xAI</span><span class="lang-zh">OpenAI、Anthropic、DeepMind、Meta、xAI</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--red)">
+            <h4><span class="lang-en">02 Incidents</span><span class="lang-zh">02 安全事件</span></h4>
+            <p><span class="lang-en">Sandbox escapes, agent abuse, prompt injection</span><span class="lang-zh">沙箱逃逸、智能体滥用、提示注入</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4><span class="lang-en">03 Safety &amp; Law</span><span class="lang-zh">03 安全与法律</span></h4>
+            <p><span class="lang-en">Voices, federal gaps, state patchwork</span><span class="lang-zh">安全声音、联邦空白、州法拼图</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4><span class="lang-en">04 Control</span><span class="lang-zh">04 控制平面</span></h4>
+            <p><span class="lang-en">Theses + advisor examples</span><span class="lang-zh">投资主题与顾问示例</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4><span class="lang-en">05 Physical</span><span class="lang-zh">05 物理人工智能</span></h4>
+            <p><span class="lang-en">World models &amp; edge</span><span class="lang-zh">世界模型与边缘算力</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--green)">
+            <h4><span class="lang-en">06 RSI</span><span class="lang-zh">06 递归自我改进</span></h4>
+            <p><span class="lang-en">Harness &amp; autoresearch</span><span class="lang-zh">驾驭层与自动研究</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · frontier labs -->
+  <section class="slide slide--alt" data-title="Frontier Labs" data-title-zh="前沿实验室">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">September 2026 signal</span>
+        <span class="lang-zh">2026年9月信号</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Five labs, five pressure points</span>
+        <span class="lang-zh">五家实验室，五个压力点</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--green)">
+            <h4>OpenAI</h4>
+            <p><span class="lang-en">Sep 2026: agent used DNS routing to reach an external chatbot; OpenAI paused training, evaluation, and tool-use on its most capable models</span><span class="lang-zh">2026年9月：智能体经 DNS 路由访问外部聊天机器人；OpenAI 暂停其最强模型的训练、评估与工具使用</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4>Anthropic</h4>
+            <p><span class="lang-en">Mythos / Opus lead; “Pace the Frontier”; wet-lab CRISPR-like result</span><span class="lang-zh">Mythos / Opus 领先；提出「放缓前沿」；湿实验 CRISPR 类结果</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4>DeepMind</h4>
+            <p><span class="lang-en">Gemini 4 prioritized under Kavukcuoglu; AGI talk de-emphasized</span><span class="lang-zh">Kavukcuoglu 上任后优先 Gemini 4；弱化通用人工智能叙事</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4>Meta</h4>
+            <p><span class="lang-en">Muse agent + Muse Charm hardware at Connect 2026</span><span class="lang-zh">Connect 2026 发布 Muse 智能体与 Muse Charm 硬件</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4>xAI</h4>
+            <p><span class="lang-en">Grok Bot always-on agents; Cursor / SpaceX ownership entanglement</span><span class="lang-zh">Grok Bot 常驻智能体；Cursor / SpaceX 股权交织带来供应商风险</span></p>
+          </div>
+        </div>
+        <div class="dg-note">
+          <span class="lang-en">Shared product shape: digital labor agents that hold credentials and run multi-step jobs.</span>
+          <span class="lang-zh">共同产品形态：持有凭证并执行多步任务的数字劳动力智能体。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · incidents -->
+  <section class="slide slide--dark" data-title="Security Incidents" data-title-zh="安全事件">
+    <div class="slide__in">
+      <span class="kicker kicker--light">2025–2026</span>
+      <h2 class="h2 h2--light">
+        <span class="lang-en">From chat jailbreaks to agent breakouts</span>
+        <span class="lang-zh">从对话越狱到智能体突破隔离</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-score" style="--c:var(--red)">
+            <b>DNS</b>
+            <h4><span class="lang-en">OpenAI DNS routing</span><span class="lang-zh">OpenAI DNS 路由</span></h4>
+            <p><span class="lang-en">Sep 20, 2026: agent bypassed sandbox via DNS to an external chatbot; training / eval / tool-use paused on most capable models</span><span class="lang-zh">2026年9月20日：智能体经 DNS 绕过沙箱访问外部聊天机器人；最强模型的训练 / 评估 / 工具使用已暂停</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--orange)">
+            <b>MX</b>
+            <h4><span class="lang-en">Mexico agencies</span><span class="lang-zh">墨西哥政府机构</span></h4>
+            <p><span class="lang-en">~195M taxpayer IDs via Claude Code + GPT</span><span class="lang-zh">约1.95亿纳税人身份经 Claude Code + GPT 泄露</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--violet)">
+            <b>14</b>
+            <h4><span class="lang-en">Company campaign</span><span class="lang-zh">十四家公司攻击</span></h4>
+            <p><span class="lang-en">Copied coding agents; recon to exfil</span><span class="lang-zh">复制编程智能体；侦察到数据外传</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--blue)">
+            <b>0-clk</b>
+            <h4><span class="lang-en">EchoLeak / Copilot</span><span class="lang-zh">EchoLeak / Copilot</span></h4>
+            <p><span class="lang-en">Zero-click and MCP RCE class bugs</span><span class="lang-zh">零点击外传与 MCP 远程代码执行类漏洞</span></p>
+          </div>
+        </div>
+        <div class="dg-note">
+          <span class="lang-en">OpenAI will not resume that model’s training until controls are validated. Prior Jul 2026 Hugging Face sandbox escape preceded this DNS case. Pattern: tools + credentials + lateral movement.</span>
+          <span class="lang-zh">OpenAI 在控件验证完成前不会恢复该模型训练。此前 2026 年 7 月 Hugging Face 沙箱逃逸发生在此 DNS 事件之前。模式：工具 + 凭证 + 横向移动。</span>
+        </div>
+      </div>
+      <p class="src">
+        <span class="lang-en">Sources: <a class="alink" href="https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot" target="_blank" rel="noopener">OpenAI Alignment — DNS chatbot report</a>; ExtraHop 2026; Sysdig; Aim Labs EchoLeak.</span>
+        <span class="lang-zh">来源：<a class="alink" href="https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot" target="_blank" rel="noopener">OpenAI Alignment — DNS 聊天机器人报告</a>；ExtraHop 2026；Sysdig；Aim Labs EchoLeak。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 5 · safety voices -->
+  <section class="slide" data-title="AI Safety Voices" data-title-zh="人工智能安全声音">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Who is setting the frame</span>
+        <span class="lang-zh">谁在设定议程</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Safety debate after agent misbehavior</span>
+        <span class="lang-zh">智能体违规行为之后的安全辩论</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4>Dario Amodei</h4>
+            <p><span class="lang-en">Pace the Frontier: embedded evaluators, industry standards, global coordination</span><span class="lang-zh">「放缓前沿」：嵌入独立评估、行业标准、全球协调</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4>Yoshua Bengio</h4>
+            <p><span class="lang-en">International AI Safety Report 2026; UN Security Council call for licensing</span><span class="lang-zh">《国际人工智能安全报告 2026》；联合国安理会呼吁许可制</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4><span class="lang-en">Lab CEOs</span><span class="lang-zh">实验室首席执行官</span></h4>
+            <p><span class="lang-en">Altman, Hassabis, Musk endorse pacing in principle; product cadence continues</span><span class="lang-zh">Altman、Hassabis、Musk 原则上认同放缓；产品节奏仍在继续</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4>Kapoor &amp; Narayanan</h4>
+            <p><span class="lang-en">Organizational controls on dangerous experiments over abstract slowdown alone</span><span class="lang-zh">强调危险实验的组织管控，而非仅抽象减速</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--red)">
+            <h4>Yudkowsky</h4>
+            <p><span class="lang-en">Existential-risk maximalist reference point remains</span><span class="lang-zh">仍是存在性风险最大化立场的参照点</span></p>
+          </div>
+        </div>
+      </div>
+      <p class="src">
+        <span class="lang-en">Amodei, “We Must Pace the Frontier” (Sep 2026); Bengio UN Security Council remarks (23 Sep 2026).</span>
+        <span class="lang-zh">Amodei，《We Must Pace the Frontier》（2026年9月）；Bengio 联合国安理会发言（2026年9月23日）。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 · federal regulation -->
+  <section class="slide slide--alt" data-title="US Federal AI Policy" data-title-zh="美国联邦人工智能政策">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Federal</span>
+        <span class="lang-zh">联邦</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">No comprehensive AI statute — agency + EO stack</span>
+        <span class="lang-zh">尚无综合人工智能成文法 — 机构执法与行政令叠加</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">No federal AI Act</span><span class="lang-zh">无联邦人工智能法</span></h4>
+            <p><span class="lang-en">Congress still debating transparency / frontier-audit bills</span><span class="lang-zh">国会仍在辩论透明度与前沿审计类法案</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4><span class="lang-en">Executive orders</span><span class="lang-zh">行政令</span></h4>
+            <p><span class="lang-en">EO 14365 task-force posture; National AI Policy Framework (Mar 2026)</span><span class="lang-zh">行政令 14365 专责组姿态；《国家人工智能政策框架》（2026年3月）</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4><span class="lang-en">Agency enforcement</span><span class="lang-zh">机构执法</span></h4>
+            <p><span class="lang-en">FTC, EEOC, DOJ, SEC under existing consumer / civil-rights / securities law</span><span class="lang-zh">FTC、EEOC、DOJ、SEC 依既有消费者、民权与证券法执法</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--green)">
+            <h4>NIST AI RMF</h4>
+            <p><span class="lang-en">Voluntary risk framework remains the common enterprise baseline</span><span class="lang-zh">自愿风险管理框架仍是企业通用基线</span></p>
+          </div>
+        </div>
+        <div class="dg-note">
+          <span class="lang-en">Federal tone favors innovation and possible preemption; state laws still bind today.</span>
+          <span class="lang-zh">联邦口径偏向创新与可能优先适用；州法今日仍具约束力。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · state regulation -->
+  <section class="slide" data-title="US State AI Laws" data-title-zh="美国州人工智能法律">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">State patchwork</span>
+        <span class="lang-zh">州法拼图</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Where deployers and frontier labs actually comply</span>
+        <span class="lang-zh">部署方与前沿实验室实际须遵守的规则</span>
+      </h2>
+      <table class="tbl-mini">
+        <thead>
+          <tr>
+            <th><span class="lang-en">Jurisdiction</span><span class="lang-zh">司法辖区</span></th>
+            <th><span class="lang-en">Instrument</span><span class="lang-zh">法规</span></th>
+            <th><span class="lang-en">Obligation focus</span><span class="lang-zh">义务重点</span></th>
+            <th><span class="lang-en">Timing</span><span class="lang-zh">时间</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="lang-en">California</span><span class="lang-zh">加利福尼亚</span></td>
+            <td>SB 53; SB 942; CCPA ADMT</td>
+            <td><span class="lang-en">Frontier transparency; AI content disclosure; decision notices</span><span class="lang-zh">前沿透明度；人工智能内容披露；决策告知</span></td>
+            <td>2026 → 2027</td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Colorado</span><span class="lang-zh">科罗拉多</span></td>
+            <td>SB 26-189</td>
+            <td><span class="lang-en">Automated decision-making technology notices + human review</span><span class="lang-zh">自动化决策技术告知与人工复核</span></td>
+            <td><span class="lang-en">1 Jan 2027</span><span class="lang-zh">2027年1月1日</span></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Texas</span><span class="lang-zh">得克萨斯</span></td>
+            <td>TRAIGA (HB 149)</td>
+            <td><span class="lang-en">Intentional AI discrimination; Attorney General enforcement</span><span class="lang-zh">故意人工智能歧视；总检察长执法</span></td>
+            <td><span class="lang-en">1 Jan 2026</span><span class="lang-zh">2026年1月1日</span></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Illinois</span><span class="lang-zh">伊利诺伊</span></td>
+            <td>HB 3773</td>
+            <td><span class="lang-en">Employment AI discrimination + applicant notice</span><span class="lang-zh">就业人工智能歧视与申请人告知</span></td>
+            <td><span class="lang-en">1 Jan 2026</span><span class="lang-zh">2026年1月1日</span></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">New York City</span><span class="lang-zh">纽约市</span></td>
+            <td>Local Law 144</td>
+            <td><span class="lang-en">Automated employment decision tool bias audits</span><span class="lang-zh">自动化就业决策工具偏见审计</span></td>
+            <td><span class="lang-en">In force</span><span class="lang-zh">已生效</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="src">
+        <span class="lang-en">Finnegan on SB 26-189; VerifyWise / Drata state trackers; Texas TRAIGA summaries (2026).</span>
+        <span class="lang-zh">Finnegan 关于 SB 26-189；VerifyWise / Drata 州法追踪；得克萨斯 TRAIGA 摘要（2026）。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 8 · investment theses -->
+  <section class="slide slide--dark" data-title="Investment Theses" data-title-zh="投资主题">
+    <div class="slide__in">
+      <span class="kicker kicker--light">
+        <span class="lang-en">Themes · not recommendations</span>
+        <span class="lang-zh">主题 · 非推荐</span>
+      </span>
+      <h2 class="h2 h2--light">
+        <span class="lang-en">Five potential investment theses</span>
+        <span class="lang-zh">五个潜在投资主题</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--red)">
+            <h4><span class="lang-en">1 · Agent control plane</span><span class="lang-zh">1 · 智能体控制平面</span></h4>
+            <p><span class="lang-en">Endpoint discovery, runtime policy, MCP inventory</span><span class="lang-zh">端点发现、运行时策略、MCP 清单</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4><span class="lang-en">2 · Harness over model</span><span class="lang-zh">2 · 驾驭层优于模型</span></h4>
+            <p><span class="lang-en">State, sandbox, evidence beat leaderboard rank</span><span class="lang-zh">状态、沙箱、证据优于排行榜名次</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">3 · Physical AI stack</span><span class="lang-zh">3 · 物理人工智能栈</span></h4>
+            <p><span class="lang-en">World models, sim, edge silicon, robot OEMs</span><span class="lang-zh">世界模型、仿真、边缘芯片、机器人整机厂商</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4><span class="lang-en">4 · AI-for-AI / RSI</span><span class="lang-zh">4 · 人工智能训练人工智能 / 递归自我改进</span></h4>
+            <p><span class="lang-en">Autoresearch, synthetic data, harness evolution</span><span class="lang-zh">自动研究、合成数据、驾驭层演化</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--green)">
+            <h4><span class="lang-en">5 · ADMT compliance</span><span class="lang-zh">5 · 自动化决策合规</span></h4>
+            <p><span class="lang-en">Decision logging, bias tests, frontier incident reporting</span><span class="lang-zh">决策日志、偏见测试、前沿事件报告</span></p>
+          </div>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <span class="lang-en">Not investment advice. Speculative themes only. Do not treat as a solicitation to buy or sell any security.</span>
+        <span class="lang-zh">不构成投资建议。仅为推测性主题。不得视为买卖任何证券的要约。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 9 · advisor stack -->
+  <section class="slide slide--alt" data-title="Advisor Examples" data-title-zh="顾问示例">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Examples only · not a portfolio pitch</span>
+        <span class="lang-zh">仅为示例 · 非投资推介</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Example advisor companies</span><span class="ex-tag lang-en">EXAMPLES</span>
+        <span class="lang-zh">顾问公司示例</span><span class="ex-tag lang-zh">示例</span>
+      </h2>
+      <p class="lead">
+        <span class="lang-en">Illustrative control-plane categories only. Not investment advice. Not a complete list. Next slide has published article URLs.</span>
+        <span class="lang-zh">仅用于说明控制平面类别。不构成投资建议。并非完整名单。下一页提供已发表文章网址。</span>
+      </p>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4>Traceforce <span class="lang-en" style="font-weight:400;font-size:.75em">(example)</span><span class="lang-zh" style="font-weight:400;font-size:.75em">（示例）</span></h4>
+            <p><span class="lang-en">AI endpoint security: device + browser visibility for apps, agents, MCP</span><span class="lang-zh">人工智能端点安全：设备与浏览器对应用、智能体、MCP 的可见性</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--red)">
+            <h4>Ridge Security <span class="lang-en" style="font-weight:400;font-size:.75em">(example)</span><span class="lang-zh" style="font-weight:400;font-size:.75em">（示例）</span></h4>
+            <p><span class="lang-en">Agentic red teaming: RidgeGen evidence-backed exploitation loops</span><span class="lang-zh">智能体红队：RidgeGen 以执行证据支撑的利用循环</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4>Reva <span class="lang-en" style="font-weight:400;font-size:.75em">(example)</span><span class="lang-zh" style="font-weight:400;font-size:.75em">（示例）</span></h4>
+            <p><span class="lang-en">Intent-Based Access Control: purpose checked at every agent hop</span><span class="lang-zh">意图访问控制：在每个智能体跳转校验目的</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4>Sondera <span class="lang-en" style="font-weight:400;font-size:.75em">(example)</span><span class="lang-zh" style="font-weight:400;font-size:.75em">（示例）</span></h4>
+            <p><span class="lang-en">Agent security harness: Cedar policy before file, shell, web actions</span><span class="lang-zh">智能体安全驾驭层：文件、Shell、网络动作前执行 Cedar 策略</span></p>
+          </div>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <span class="lang-en"><strong>Examples only.</strong> Not investment advice. Author has advisory relationships with these firms — treat as conflict disclosure, not endorsement to invest.</span>
+        <span class="lang-zh"><strong>仅为示例。</strong>不构成投资建议。作者与上述公司存在顾问关系 — 属利益冲突披露，并非投资背书。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 10 · published articles with URLs -->
+  <section class="slide" data-title="Article URLs" data-title-zh="文章网址">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Verified publications · clickable URLs</span>
+        <span class="lang-zh">已核实发表内容 · 可点击网址</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Ken Huang articles naming these example companies</span>
+        <span class="lang-zh">黄连金署名且提及上述示例公司的文章</span>
+      </h2>
+      <div class="two-col">
+        <div>
+          <ul class="link-list">
+            <li><b>Traceforce</b>
+              <a class="alink" href="https://kenhuangus.substack.com/p/agentic-security-posture-management-9ac" target="_blank" rel="noopener">ASPM via TraceForce</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/how-to-discover-shadow-ai-agents" target="_blank" rel="noopener">Shadow AI agents</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/the-hidden-risk-in-mcp-connections" target="_blank" rel="noopener">MCP hidden risk</a>
+            </li>
+            <li><b>Ridge</b>
+              <a class="alink" href="https://kenhuangus.substack.com/p/the-harness-advantage-in-autonomous" target="_blank" rel="noopener">Harness Advantage</a>
+              · <a class="alink" href="https://ridgesecurity.ai/blog/the-harness-advantage-in-autonomous-red-teaming-why-frontier-llms-alone-fail-offensive-security-and-how-ridgegen-solves-the-alignment-dilemma/" target="_blank" rel="noopener">Ridge blog</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/why-your-agentic-ai-pentester-is" target="_blank" rel="noopener">Fancy Scanner</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/close-the-loop-find-fix-and-prove" target="_blank" rel="noopener">Find-Fix-Prove</a>
+            </li>
+            <li><b>Reva</b>
+              <a class="alink" href="https://www.reva.ai/blog/intent-based-access-control-a-technical-primer" target="_blank" rel="noopener">IBAC primer (Reva)</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/intentbased-access-control-a-technical" target="_blank" rel="noopener">IBAC primer (Substack)</a>
+              · <a class="alink" href="https://www.reva.ai/blog/why-static-authorization-is-failing-in-the-age-of-ai-agents" target="_blank" rel="noopener">Static auth failing</a>
+              · <a class="alink" href="https://kenhuangus.substack.com/p/intent-based-access-controlibac-for" target="_blank" rel="noopener">IBAC for coding agents</a>
+            </li>
+            <li><b>Sondera</b>
+              <a class="alink" href="https://www.sondera.ai/team" target="_blank" rel="noopener">sondera.ai/team (advisor)</a>
+              · <a class="alink" href="https://www.linkedin.com/posts/kenhuang8_what-a-secure-harness-for-agentic-ai-actually-activity-7457432674828275712-lVLL" target="_blank" rel="noopener">Secure harness post</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul class="link-list">
+            <li><b><span class="lang-en">Raw URLs</span><span class="lang-zh">原始网址</span></b></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/agentic-security-posture-management-9ac" target="_blank" rel="noopener">kenhuangus.substack.com/p/agentic-security-posture-management-9ac</a></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/how-to-discover-shadow-ai-agents" target="_blank" rel="noopener">…/how-to-discover-shadow-ai-agents</a></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/the-hidden-risk-in-mcp-connections" target="_blank" rel="noopener">…/the-hidden-risk-in-mcp-connections</a></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/the-harness-advantage-in-autonomous" target="_blank" rel="noopener">…/the-harness-advantage-in-autonomous</a></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/why-your-agentic-ai-pentester-is" target="_blank" rel="noopener">…/why-your-agentic-ai-pentester-is</a></li>
+            <li><a class="alink" href="https://kenhuangus.substack.com/p/close-the-loop-find-fix-and-prove" target="_blank" rel="noopener">…/close-the-loop-find-fix-and-prove</a></li>
+            <li><a class="alink" href="https://www.reva.ai/blog/intent-based-access-control-a-technical-primer" target="_blank" rel="noopener">reva.ai/blog/intent-based-access-control-a-technical-primer</a></li>
+            <li><a class="alink" href="https://www.reva.ai/blog/why-static-authorization-is-failing-in-the-age-of-ai-agents" target="_blank" rel="noopener">reva.ai/blog/why-static-authorization-is-failing…</a></li>
+            <li><a class="alink" href="https://www.sondera.ai/team" target="_blank" rel="noopener">sondera.ai/team</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <span class="lang-en"><strong>Examples only. Not investment advice.</strong> Publications document collaboration; they are not a solicitation to buy or sell securities.</span>
+        <span class="lang-zh"><strong>仅为示例。不构成投资建议。</strong>文章记录合作关系，并非买卖证券的要约。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 11 · physical AI -->
+  <section class="slide slide--dark" data-title="Physical AI" data-title-zh="物理人工智能">
+    <div class="slide__in">
+      <span class="kicker kicker--light">
+        <span class="lang-en">Embodied intelligence</span>
+        <span class="lang-zh">具身智能</span>
+      </span>
+      <h2 class="h2 h2--light">
+        <span class="lang-en">Physical AI, world models, embedded compute</span>
+        <span class="lang-zh">物理人工智能、世界模型、嵌入式算力</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--green)">
+            <h4><span class="lang-en">Physical AI</span><span class="lang-zh">物理人工智能</span></h4>
+            <p><span class="lang-en">Generalist robot brains: Tesla, Figure, Agility, industrial OEMs on NVIDIA stacks</span><span class="lang-zh">通用机器人大脑：Tesla、Figure、Agility 及基于 NVIDIA 栈的工业整机厂商</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">World models</span><span class="lang-zh">世界模型</span></h4>
+            <p><span class="lang-en">NVIDIA Cosmos 3 (reason + generate + action); World Labs Marble 3D worlds</span><span class="lang-zh">NVIDIA Cosmos 3（推理 + 生成 + 动作）；World Labs Marble 三维世界</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4><span class="lang-en">Embedded</span><span class="lang-zh">嵌入式</span></h4>
+            <p><span class="lang-en">Jetson Thor ~2070 FP4 TFLOPS; Qualcomm Dragonwing for volume edge robots</span><span class="lang-zh">Jetson Thor 约 2070 FP4 TFLOPS；Qualcomm Dragonwing 面向批量边缘机器人</span></p>
+          </div>
+        </div>
+        <div class="dg-note">
+          <span class="lang-en">Bottleneck: sim-to-real transfer and contact-rich data, not actuator catalogs alone.</span>
+          <span class="lang-zh">瓶颈：仿真到现实迁移与富接触数据，而非仅执行器型号目录。</span>
+        </div>
+      </div>
+      <p class="src">
+        <span class="lang-en">NVIDIA Cosmos / Jetson Thor docs; World Labs Marble; Robot Report GTC coverage 2026.</span>
+        <span class="lang-zh">NVIDIA Cosmos / Jetson Thor 文档；World Labs Marble；Robot Report 2026 年 GTC 报道。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 12 · RSI overview -->
+  <section class="slide" data-title="Recursive Self-Improvement" data-title-zh="递归自我改进">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">RSI · operational definition</span>
+        <span class="lang-zh">递归自我改进 · 可操作定义</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Propose → evaluate → keep or discard → repeat</span>
+        <span class="lang-zh">提出 → 评估 → 保留或丢弃 → 重复</span>
+      </h2>
+      <p class="lead">
+        <span class="lang-en">Capability compounds when an agent edits training code or harnesses under a hard metric and immutable evaluator.</span>
+        <span class="lang-zh">当智能体在硬指标与不可篡改评估器约束下修改训练代码或驾驭层时，能力可累积提升。</span>
+      </p>
+      <div class="dg">
+        <div class="dg-cap">
+          <span class="lang-en">closed loop</span>
+          <span class="lang-zh">闭环</span>
+        </div>
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">Propose</span><span class="lang-zh">提出</span></h4>
+            <p><span class="lang-en">Agent edits code or harness</span><span class="lang-zh">智能体修改代码或驾驭层</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--teal)">
+            <h4><span class="lang-en">Run</span><span class="lang-zh">运行</span></h4>
+            <p><span class="lang-en">Fixed time / fixed eval</span><span class="lang-zh">固定时长 / 固定评估</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--green)">
+            <h4><span class="lang-en">Keep</span><span class="lang-zh">保留</span></h4>
+            <p><span class="lang-en">Metric improved → commit</span><span class="lang-zh">指标提升 → 提交</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--red)">
+            <h4><span class="lang-en">Reset</span><span class="lang-zh">回退</span></h4>
+            <p><span class="lang-en">No gain → discard change</span><span class="lang-zh">无增益 → 丢弃改动</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · RSI examples -->
+  <section class="slide slide--alt" data-title="RSI Examples" data-title-zh="递归自我改进实例">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">Three working systems</span>
+        <span class="lang-zh">三个可运行系统</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Harness engineering, AutoResearch, AI trains AI</span>
+        <span class="lang-zh">驾驭层工程、自动研究、人工智能训练人工智能</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4><span class="lang-en">Agent Harness Engineering</span><span class="lang-zh">智能体驾驭层工程</span></h4>
+            <p><span class="lang-en">AHE: Terminal-Bench 2 pass@1 69.7% → 77.0% in 10 iterations (arXiv:2604.25850). RHI revises harness prompts from pairwise history (arXiv:2607.15524).</span><span class="lang-zh">AHE：Terminal-Bench 2 的 pass@1 在 10 轮内由 69.7% 升至 77.0%（arXiv:2604.25850）。RHI 依成对历史修订驾驭层提示（arXiv:2607.15524）。</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--orange)">
+            <h4><span class="lang-en">Karpathy AutoResearch</span><span class="lang-zh">Karpathy 自动研究</span></h4>
+            <p><span class="lang-en">Edit only train.py; prepare.py frozen; 5-minute budget; val_bpb ratchet; program.md defines the research org.</span><span class="lang-zh">仅可编辑 train.py；prepare.py 冻结；五分钟预算；val_bpb 棘轮；program.md 定义研究组织。</span></p>
+          </div>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">AI trains AI</span><span class="lang-zh">人工智能训练人工智能</span></h4>
+            <p><span class="lang-en">Synthetic data (Cosmos SDG), self-play / preference loops, find→fix→reverify (RidgeGen + CodeMender).</span><span class="lang-zh">合成数据（Cosmos SDG）、自对弈 / 偏好循环、发现→修复→再验证（RidgeGen + CodeMender）。</span></p>
+          </div>
+        </div>
+        <div class="dg-note">
+          <span class="lang-en">Same loops raise defensive and offensive capability. Control plane and immutable eval are the durable layer.</span>
+          <span class="lang-zh">同一循环同时提升防御与进攻能力。控制平面与不可篡改评估是持久层。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · synthesis -->
+  <section class="slide" data-title="Synthesis" data-title-zh="综合">
+    <div class="slide__in">
+      <span class="kicker">
+        <span class="lang-en">One map</span>
+        <span class="lang-zh">一张总图</span>
+      </span>
+      <h2 class="h2">
+        <span class="lang-en">Where the narrative locks together</span>
+        <span class="lang-zh">叙述如何连成一条链</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-card" style="--c:var(--red)">
+            <h4><span class="lang-en">Incidents</span><span class="lang-zh">事件</span></h4>
+            <p><span class="lang-en">Agents with tools breached sandboxes and enterprises</span><span class="lang-zh">带工具的智能体突破沙箱与企业边界</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--violet)">
+            <h4><span class="lang-en">Policy</span><span class="lang-zh">政策</span></h4>
+            <p><span class="lang-en">Pace-the-frontier + state ADMT / frontier transparency</span><span class="lang-zh">放缓前沿 + 州自动化决策 / 前沿透明度</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--blue)">
+            <h4><span class="lang-en">Control plane</span><span class="lang-zh">控制平面</span></h4>
+            <p><span class="lang-en">Endpoint · red team · intent auth · action harness</span><span class="lang-zh">端点 · 红队 · 意图授权 · 动作驾驭层</span></p>
+          </div>
+          <span class="dg-arrow">➜</span>
+          <div class="dg-card" style="--c:var(--green)">
+            <h4><span class="lang-en">Next compute</span><span class="lang-zh">下一算力层</span></h4>
+            <p><span class="lang-en">Physical AI + RSI amplify both risk and product demand</span><span class="lang-zh">物理人工智能与递归自我改进同时放大风险与产品需求</span></p>
+          </div>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <span class="lang-en">Not investment advice. Research briefing only. Advisor conflicts disclosed on prior slides.</span>
+        <span class="lang-zh">不构成投资建议。仅为研究简报。顾问利益冲突已在前述页面披露。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- last · closing -->
+  <section class="slide slide--dark" data-title="Close" data-title-zh="结束">
+    <div class="slide__in">
+      <span class="kicker kicker--light">
+        <span class="lang-en">Takeaway metrics</span>
+        <span class="lang-zh">带走的数字</span>
+      </span>
+      <h2 class="h2 h2--light">
+        <span class="lang-en">Remember four numbers — question every thesis</span>
+        <span class="lang-zh">记住四个数字 — 质疑每一个主题</span>
+      </h2>
+      <div class="dg">
+        <div class="dg-row dg-stagger">
+          <div class="dg-score" style="--c:var(--red)">
+            <b>0</b>
+            <h4><span class="lang-en">Federal AI Act</span><span class="lang-zh">联邦人工智能法</span></h4>
+            <p><span class="lang-en">States carry binding rules today</span><span class="lang-zh">今日有约束力的是州法</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--orange)">
+            <b>4</b>
+            <h4><span class="lang-en">Example surfaces</span><span class="lang-zh">示例覆盖面</span></h4>
+            <p><span class="lang-en">Endpoint · red team · IBAC · harness (examples)</span><span class="lang-zh">端点 · 红队 · 意图访问控制 · 驾驭层（示例）</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--blue)">
+            <b>3</b>
+            <h4><span class="lang-en">RSI loops</span><span class="lang-zh">递归自我改进循环</span></h4>
+            <p><span class="lang-en">AHE · AutoResearch · AI-trains-AI</span><span class="lang-zh">驾驭层工程 · 自动研究 · 人工智能训练人工智能</span></p>
+          </div>
+          <div class="dg-score" style="--c:var(--green)">
+            <b>1</b>
+            <h4><span class="lang-en">Hard rule</span><span class="lang-zh">硬规则</span></h4>
+            <p><span class="lang-en">Immutable eval before any keep</span><span class="lang-zh">任何保留之前须有不可篡改评估</span></p>
+          </div>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <span class="lang-en"><strong>Not investment advice.</strong> This deck is for research and education. Past incidents and product claims do not predict returns. Contact: kenhuangus.substack.com · Adjunct Professor, University of San Francisco.</span>
+        <span class="lang-zh"><strong>不构成投资建议。</strong>本幻灯片仅供研究与教育。过往事件与产品主张不能预测回报。联系：kenhuangus.substack.com · 旧金山大学 (USF) 客座教授。</span>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="ctrl">
+  <button class="ctrl__btn" id="prevBtn" aria-label="Previous slide">
+    <span class="lang-en">‹ Prev</span><span class="lang-zh">‹ 上一张</span>
+  </button>
+  <div class="dots" id="dots"></div>
+  <span class="ctrl__count" id="count">1 / 1</span>
+  <button class="ctrl__btn ctrl__btn--accent" id="nextBtn" aria-label="Next slide">
+    <span class="lang-en">Next ›</span><span class="lang-zh">下一张 ›</span>
+  </button>
+</nav>
+<div class="progress" id="progress"></div>
+
+<script>
+/* ============ MAESTRO deck navigation ============ */
+(function () {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const total = slides.length;
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const count = document.getElementById("count");
+  const dotsWrap = document.getElementById("dots");
+  const progress = document.getElementById("progress");
+  const title = document.getElementById("slideTitle");
+
+  // build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement("button");
+    d.className = "dot"; d.setAttribute("aria-label", "Go to slide " + (i + 1));
+    d.addEventListener("click", () => go(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  let cur = 0;
+
+  function clamp(i) { return Math.max(0, Math.min(total - 1, i)); }
+
+  function go(i) {
+    i = clamp(i);
+    slides.forEach((s, idx) => {
+      s.classList.toggle("is-active", idx === i);
+      s.classList.toggle("is-prev", idx < i);
+    });
+    dots.forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+    cur = i;
+    count.textContent = (i + 1) + " / " + total;
+    title.textContent = slides[i].dataset.title || "";
+    progress.style.width = ((i) / (total - 1) * 100) + "%";
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === total - 1;
+    if (history.replaceState) history.replaceState(null, "", "#" + (i + 1));
+  }
+
+  const next = () => go(cur + 1);
+  const prev = () => go(cur - 1);
+  nextBtn.addEventListener("click", next);
+  prevBtn.addEventListener("click", prev);
+
+  // keyboard
+  document.addEventListener("keydown", e => {
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); next(); }
+    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(total - 1);
+  });
+
+  // touch swipe
+  let x0 = null;
+  document.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener("touchend", e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) (dx < 0 ? next : prev)();
+    x0 = null;
+  }, { passive: true });
+
+  // wheel = navigate (debounced) so a trackpad/mouse advances slides
+  let wheelLock = false;
+  document.addEventListener("wheel", e => {
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 24 && Math.abs(e.deltaX) < 24) return;
+    wheelLock = true; setTimeout(() => (wheelLock = false), 650);
+    (e.deltaY > 0 || e.deltaX > 0) ? next() : prev();
+  }, { passive: true });
+
+  // deep-link via hash
+  const start = parseInt((location.hash || "").replace("#", ""), 10);
+  go(isNaN(start) ? 0 : start - 1);
+})();
+
+</script>
+<script>
+(function () {
+  const LANG_KEY = 'frontier-ai-briefing-lang';
+  const langEnBtn = document.getElementById('langEnBtn');
+  const langZhBtn = document.getElementById('langZhBtn');
+  const titleEl = document.getElementById('slideTitle');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+
+  function currentLang() {
+    return document.documentElement.getAttribute('data-lang') === 'zh' ? 'zh' : 'en';
+  }
+
+  function activeSlide() {
+    return document.querySelector('.slide.is-active') || slides[0];
+  }
+
+  function refreshTitle() {
+    const s = activeSlide();
+    if (!s || !titleEl) return;
+    const zh = s.getAttribute('data-title-zh') || '';
+    const en = s.getAttribute('data-title') || '';
+    titleEl.textContent = currentLang() === 'zh' ? (zh || en) : en;
+  }
+
+  function setLang(lang) {
+    const next = lang === 'zh' ? 'zh' : 'en';
+    document.documentElement.setAttribute('data-lang', next);
+    document.documentElement.setAttribute('lang', next === 'zh' ? 'zh-CN' : 'en');
+    try { localStorage.setItem(LANG_KEY, next); } catch (e) {}
+    if (langEnBtn && langZhBtn) {
+      langEnBtn.classList.toggle('is-active', next === 'en');
+      langZhBtn.classList.toggle('is-active', next === 'zh');
+    }
+    document.title = next === 'zh'
+      ? '前沿人工智能简报 — 2026年9月'
+      : 'Frontier AI Briefing — September 2026';
+    refreshTitle();
+  }
+
+  if (langEnBtn) langEnBtn.addEventListener('click', () => setLang('en'));
+  if (langZhBtn) langZhBtn.addEventListener('click', () => setLang('zh'));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'l' || e.key === 'L') {
+      if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
+      setLang(currentLang() === 'zh' ? 'en' : 'zh');
+    }
+  });
+
+  slides.forEach(s => {
+    new MutationObserver(refreshTitle).observe(s, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  let saved = 'en';
+  try { saved = localStorage.getItem(LANG_KEY) || 'en'; } catch (e) {}
+  setLang(saved);
+})();
+</script>
+</body>
+</html>

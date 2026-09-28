@@ -500,28 +500,35 @@ a{color:inherit}
     border-radius: 999px;
     text-decoration: none;
   }
+  .slide--books .h2 { margin-bottom: .25rem; font-size: clamp(1.25rem, 3.6vh, 2.2rem); }
+  .slide--books .kicker { margin-bottom: 0; }
+  .slide--books .slide__in { justify-content: flex-start; padding-top: .4vh; }
   .books-gallery-head {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: .6rem 1rem;
-    margin: .4vh 0 .8vh;
+    gap: .35rem 1rem;
+    margin: .2vh 0 .6vh;
     width: 100%;
   }
+  .books-gallery-head .lead { font-size: clamp(.8rem, 1.7vh, .95rem); }
   .books-gallery-head a {
-    font-size: clamp(.78rem, 1.6vh, .92rem);
+    font-size: clamp(.72rem, 1.5vh, .88rem);
     font-weight: 600;
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1.5px solid rgba(255,106,43,.35);
   }
+  /* 6×2 fits all 12 covers from predictions #2 without clipping */
   .books-gallery-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: clamp(6px, 1vw, 12px);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(5px, .8vw, 10px);
     width: 100%;
-    margin-top: .4vh;
+    margin-top: .2vh;
+    flex: 1 1 auto;
+    align-content: start;
   }
   @media (max-width: 900px) { .books-gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   @media (max-width: 640px) { .books-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -535,7 +542,7 @@ a{color:inherit}
     background: #fff;
     border: 1px solid var(--line, #e6e1d6);
     border-radius: 10px;
-    padding: .55vh .4vw .7vh;
+    padding: .4vh .35vw .55vh;
     box-shadow: var(--shadow);
     transition: transform .15s, border-color .2s;
     min-width: 0;
@@ -543,15 +550,16 @@ a{color:inherit}
   .book-item-card:hover { transform: translateY(-2px); border-color: var(--accent); }
   .book-item-card img {
     width: 100%;
-    height: clamp(72px, 11vh, 110px);
+    height: clamp(64px, 12.5vh, 118px);
     object-fit: contain;
     border-radius: 4px;
+    background: #f7f5f0;
   }
   .book-item-title {
-    font-size: clamp(.58rem, 1.25vh, .72rem);
+    font-size: clamp(.55rem, 1.15vh, .7rem);
     font-weight: 700;
     font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
-    margin-top: .35vh;
+    margin-top: .25vh;
     line-height: 1.15;
     white-space: nowrap;
     overflow: hidden;
@@ -559,10 +567,10 @@ a{color:inherit}
     width: 100%;
   }
   .book-publisher-tag {
-    font-size: clamp(.48rem, 1.05vh, .58rem);
+    font-size: clamp(.45rem, 1vh, .55rem);
     font-weight: 800;
     color: var(--accent);
-    margin-top: .15vh;
+    margin-top: .1vh;
     text-transform: uppercase;
     letter-spacing: .02em;
   }
@@ -701,12 +709,12 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- 3 · books gallery (from predictions #2; Harness + Graph move to last slide) -->
-  <section class="slide" data-title="Books" data-title-zh="著作">
+  <!-- 3 · books gallery (same 12 covers as predictions #2) -->
+  <section class="slide slide--books" data-title="Books" data-title-zh="著作">
     <div class="slide__in">
       <span class="kicker">
-        <span class="lang-en">Publications</span>
-        <span class="lang-zh">出版物</span>
+        <span class="lang-en">Publications · 12 titles</span>
+        <span class="lang-zh">出版物 · 12 本</span>
       </span>
       <h2 class="h2">
         <span class="lang-en">AI books &amp; academic titles</span>
@@ -714,79 +722,73 @@ a{color:inherit}
       </h2>
       <div class="books-gallery-head">
         <p class="lead" style="margin:0">
-          <span class="lang-en">Springer · Cambridge · Wiley · Packt · Kindle — gallery from predictions #2. Latest two titles close the deck.</span>
-          <span class="lang-zh">Springer · Cambridge · Wiley · Packt · Kindle — 来自 predictions #2 图库。最新两本置于结束页。</span>
+          <span class="lang-en">Same gallery as <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a> — Springer · Cambridge · Wiley · Packt · Kindle.</span>
+          <span class="lang-zh">与 <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a> 相同图库 — Springer · Cambridge · Wiley · Packt · Kindle。</span>
         </p>
         <a href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon author store ↗</a>
       </div>
       <div class="books-gallery-grid">
         <a class="book-item-card" href="https://link.springer.com/book/10.1007/978-3-031-90026-6" target="_blank" rel="noopener" title="Agentic AI (Springer)">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_agentic_ai.jpg" alt="Agentic AI" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_agentic_ai.jpg" alt="Agentic AI" loading="eager" />
           <div class="book-item-title">Agentic AI</div>
           <div class="book-publisher-tag">Springer</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/3031448839" target="_blank" rel="noopener" title="Beyond AI">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_beyond_ai.jpg" alt="Beyond AI" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_beyond_ai.jpg" alt="Beyond AI" loading="eager" />
           <div class="book-item-title">Beyond AI</div>
           <div class="book-publisher-tag">Springer</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/3031542517" target="_blank" rel="noopener" title="Generative AI Security">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_generative_ai_security.jpg" alt="GenAI Security" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_generative_ai_security.jpg" alt="GenAI Security" loading="eager" />
           <div class="book-item-title">GenAI Security</div>
           <div class="book-publisher-tag">Springer</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/3031901002" target="_blank" rel="noopener" title="Securing AI Agents">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_securing_ai_agents.jpg" alt="Securing AI Agents" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_securing_ai_agents.jpg" alt="Securing AI Agents" loading="eager" />
           <div class="book-item-title">Securing Agents</div>
           <div class="book-publisher-tag">Springer</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/1009384467" target="_blank" rel="noopener" title="Web3">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/cambridge_web3.jpg" alt="Web3" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/cambridge_web3.jpg" alt="Web3" loading="eager" />
           <div class="book-item-title">Web3 &amp; Economy</div>
           <div class="book-publisher-tag">Cambridge</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/1394186524" target="_blank" rel="noopener" title="Blockchain and Web3">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/wiley_blockchain_web3.jpg" alt="Blockchain Web3" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/wiley_blockchain_web3.jpg" alt="Blockchain Web3" loading="eager" />
           <div class="book-item-title">Blockchain Web3</div>
           <div class="book-publisher-tag">Wiley</div>
         </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener" title="Harness Engineering">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/harness_engineering.jpg" alt="Harness Engineering" loading="eager" />
+          <div class="book-item-title">Harness Eng.</div>
+          <div class="book-publisher-tag">Kindle</div>
+        </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/1807785017" target="_blank" rel="noopener" title="OpenClaw AI in Production">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI" loading="eager" />
           <div class="book-item-title">OpenClaw AI</div>
           <div class="book-publisher-tag">Packt</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/B0H8JW9XFN" target="_blank" rel="noopener" title="Engineering Agentic AI with Claude">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/engineering_agentic_ai_claude.jpg" alt="Agentic Claude" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/engineering_agentic_ai_claude.jpg" alt="Agentic Claude" loading="eager" />
           <div class="book-item-title">Agentic Claude</div>
           <div class="book-publisher-tag">Kindle</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/1836207034" target="_blank" rel="noopener" title="LLM Design Patterns">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/llm_design_patterns.jpg" alt="LLM Patterns" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/llm_design_patterns.jpg" alt="LLM Patterns" loading="eager" />
           <div class="book-item-title">LLM Patterns</div>
           <div class="book-publisher-tag">Packt</div>
         </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/B0H13XWS8W" target="_blank" rel="noopener" title="Agentic AI Harness Pattern">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/agentic_ai_harness_pattern.jpg" alt="AI Harness Pattern" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/agentic_ai_harness_pattern.jpg" alt="AI Harness Pattern" loading="eager" />
           <div class="book-item-title">AI Harness</div>
           <div class="book-publisher-tag">Kindle</div>
         </a>
-        <a class="book-item-card" href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener" title="Harness Engineering">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/harness_engineering_book.jpg" alt="Harness Engineering" />
-          <div class="book-item-title">Harness Eng.</div>
-          <div class="book-publisher-tag">Kindle</div>
-        </a>
         <a class="book-item-card" href="https://www.amazon.com/dp/B0HHZVDQQY" target="_blank" rel="noopener" title="Graph Engineering for Agentic AI Systems">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/graph_engineering_book.jpg" alt="Graph Engineering" />
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/graph_engineering_book.jpg" alt="Graph Engineering" loading="eager" />
           <div class="book-item-title">Graph Eng.</div>
           <div class="book-publisher-tag">Kindle</div>
         </a>
       </div>
-      <p class="src" style="text-align:center;margin-top:1.2vh">
-        <span class="lang-en">Layout source: <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a>
-        · Author: <a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon store</a>.</span>
-        <span class="lang-zh">版式来源：<a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a>
-        · 作者：<a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon 商店</a>。</span>
-      </p>
     </div>
   </section>
 

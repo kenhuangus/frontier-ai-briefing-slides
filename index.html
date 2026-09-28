@@ -500,6 +500,72 @@ a{color:inherit}
     border-radius: 999px;
     text-decoration: none;
   }
+  .books-gallery-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .6rem 1rem;
+    margin: .4vh 0 .8vh;
+    width: 100%;
+  }
+  .books-gallery-head a {
+    font-size: clamp(.78rem, 1.6vh, .92rem);
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1.5px solid rgba(255,106,43,.35);
+  }
+  .books-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(6px, 1vw, 12px);
+    width: 100%;
+    margin-top: .4vh;
+  }
+  @media (max-width: 900px) { .books-gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .books-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .book-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 1px solid var(--line, #e6e1d6);
+    border-radius: 10px;
+    padding: .55vh .4vw .7vh;
+    box-shadow: var(--shadow);
+    transition: transform .15s, border-color .2s;
+    min-width: 0;
+  }
+  .book-item-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .book-item-card img {
+    width: 100%;
+    height: clamp(72px, 11vh, 110px);
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  .book-item-title {
+    font-size: clamp(.58rem, 1.25vh, .72rem);
+    font-weight: 700;
+    font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+    margin-top: .35vh;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  .book-publisher-tag {
+    font-size: clamp(.48rem, 1.05vh, .58rem);
+    font-weight: 800;
+    color: var(--accent);
+    margin-top: .15vh;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+  }
   .books-pair {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -522,6 +588,7 @@ a{color:inherit}
     box-shadow: var(--shadow);
     transition: transform .15s, border-color .2s;
   }
+  .slide--dark .book-card { background: #151b28; border-color: #2a3344; color: #eceef2; }
   .book-card:hover { transform: translateY(-3px); border-color: var(--accent); }
   .book-card img {
     width: min(200px, 28vw);
@@ -543,11 +610,14 @@ a{color:inherit}
     margin: 0 0 .4vh;
     color: var(--text);
   }
+  .slide--dark .book-card h4 { color: #fff; }
   .book-card p {
     margin: 0;
     font-size: clamp(.75rem, 1.55vh, .88rem);
     color: var(--muted);
   }
+  .slide--dark .book-card p { color: #aab1bf; }
+  .dg-card .inc { margin: .25rem 0 0; font-size: clamp(.72rem, 1.45vh, .86rem); line-height: 1.35; }
 </style>
 </head>
 <body>
@@ -631,40 +701,81 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- 3 · recent books (from agentic-ai-2026-predictions #18) -->
-  <section class="slide" data-title="Recent Books" data-title-zh="近期著作">
+  <!-- 3 · books gallery (from predictions #2; Harness + Graph move to last slide) -->
+  <section class="slide" data-title="Books" data-title-zh="著作">
     <div class="slide__in">
       <span class="kicker">
-        <span class="lang-en">Latest books</span>
-        <span class="lang-zh">最新著作</span>
+        <span class="lang-en">Publications</span>
+        <span class="lang-zh">出版物</span>
       </span>
       <h2 class="h2">
-        <span class="lang-en">Recent Books</span>
-        <span class="lang-zh">近期著作</span>
+        <span class="lang-en">AI books &amp; academic titles</span>
+        <span class="lang-zh">人工智能著作与学术出版物</span>
       </h2>
-      <p class="lead">
-        <span class="lang-en">Graph Engineering for Agentic AI Systems · Harness Engineering</span>
-        <span class="lang-zh">《Graph Engineering for Agentic AI Systems》·《Harness Engineering》</span>
-      </p>
-      <div class="books-pair">
-        <a class="book-card" href="https://www.amazon.com/dp/B0HHZVDQQY" target="_blank" rel="noopener" title="Graph Engineering for Agentic AI Systems">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/graph_engineering_book.jpg" alt="Graph Engineering for Agentic AI Systems" />
-          <div class="tag">Kindle · B0HHZVDQQY</div>
-          <h4>Graph Engineering for Agentic AI Systems</h4>
-          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+      <div class="books-gallery-head">
+        <p class="lead" style="margin:0">
+          <span class="lang-en">Springer · Cambridge · Wiley · Packt · Kindle — gallery from predictions #2. Latest two titles close the deck.</span>
+          <span class="lang-zh">Springer · Cambridge · Wiley · Packt · Kindle — 来自 predictions #2 图库。最新两本置于结束页。</span>
+        </p>
+        <a href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon author store ↗</a>
+      </div>
+      <div class="books-gallery-grid">
+        <a class="book-item-card" href="https://link.springer.com/book/10.1007/978-3-031-90026-6" target="_blank" rel="noopener" title="Agentic AI (Springer)">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_agentic_ai.jpg" alt="Agentic AI" />
+          <div class="book-item-title">Agentic AI</div>
+          <div class="book-publisher-tag">Springer</div>
         </a>
-        <a class="book-card" href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener" title="Harness Engineering">
-          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/harness_engineering_book.jpg" alt="Harness Engineering" />
-          <div class="tag">Kindle · B0HF3F86YM</div>
-          <h4>Harness Engineering</h4>
-          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+        <a class="book-item-card" href="https://www.amazon.com/dp/3031448839" target="_blank" rel="noopener" title="Beyond AI">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_beyond_ai.jpg" alt="Beyond AI" />
+          <div class="book-item-title">Beyond AI</div>
+          <div class="book-publisher-tag">Springer</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/3031542517" target="_blank" rel="noopener" title="Generative AI Security">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_generative_ai_security.jpg" alt="GenAI Security" />
+          <div class="book-item-title">GenAI Security</div>
+          <div class="book-publisher-tag">Springer</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/3031901002" target="_blank" rel="noopener" title="Securing AI Agents">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/springer_securing_ai_agents.jpg" alt="Securing AI Agents" />
+          <div class="book-item-title">Securing Agents</div>
+          <div class="book-publisher-tag">Springer</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/1009384467" target="_blank" rel="noopener" title="Web3">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/cambridge_web3.jpg" alt="Web3" />
+          <div class="book-item-title">Web3 &amp; Economy</div>
+          <div class="book-publisher-tag">Cambridge</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/1394186524" target="_blank" rel="noopener" title="Blockchain and Web3">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/wiley_blockchain_web3.jpg" alt="Blockchain Web3" />
+          <div class="book-item-title">Blockchain Web3</div>
+          <div class="book-publisher-tag">Wiley</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/1807785017" target="_blank" rel="noopener" title="OpenClaw AI in Production">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI" />
+          <div class="book-item-title">OpenClaw AI</div>
+          <div class="book-publisher-tag">Packt</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/B0H8JW9XFN" target="_blank" rel="noopener" title="Engineering Agentic AI with Claude">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/engineering_agentic_ai_claude.jpg" alt="Agentic Claude" />
+          <div class="book-item-title">Agentic Claude</div>
+          <div class="book-publisher-tag">Kindle</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/1836207034" target="_blank" rel="noopener" title="LLM Design Patterns">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/llm_design_patterns.jpg" alt="LLM Patterns" />
+          <div class="book-item-title">LLM Patterns</div>
+          <div class="book-publisher-tag">Packt</div>
+        </a>
+        <a class="book-item-card" href="https://www.amazon.com/dp/B0H13XWS8W" target="_blank" rel="noopener" title="Agentic AI Harness Pattern">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/books/agentic_ai_harness_pattern.jpg" alt="AI Harness Pattern" />
+          <div class="book-item-title">AI Harness</div>
+          <div class="book-publisher-tag">Kindle</div>
         </a>
       </div>
-      <p class="src" style="text-align:center;margin-top:1.4vh">
-        <span class="lang-en">Source: <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">agentic-ai-2026-predictions #18</a>
-        · Author store: <a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon author page</a></span>
-        <span class="lang-zh">来源：<a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">agentic-ai-2026-predictions #18</a>
-        · 作者主页：<a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon 作者页</a></span>
+      <p class="src" style="text-align:center;margin-top:1.2vh">
+        <span class="lang-en">Layout source: <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a>
+        · Closing slide: <em>Harness Engineering</em> + <em>Graph Engineering</em>.</span>
+        <span class="lang-zh">版式来源：<a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#2" target="_blank" rel="noopener">predictions #2</a>
+        · 结束页：《Harness Engineering》+《Graph Engineering》。</span>
       </p>
     </div>
   </section>
@@ -673,16 +784,16 @@ a{color:inherit}
   <section class="slide" data-title="Agenda" data-title-zh="议程">
     <div class="slide__in">
       <span class="kicker">
-        <span class="lang-en">Roadmap</span>
-        <span class="lang-zh">路线图</span>
+        <span class="lang-en">Roadmap · security first</span>
+        <span class="lang-zh">路线图 · 安全优先</span>
       </span>
       <h2 class="h2">
-        <span class="lang-en">Six blocks for this briefing</span>
-        <span class="lang-zh">本简报六个板块</span>
+        <span class="lang-en">Five blocks for this briefing</span>
+        <span class="lang-zh">本简报五个板块</span>
       </h2>
       <p class="lead">
-        <span class="lang-en">From frontier-lab status through regulation, control-plane products, physical AI, and recursive self-improvement.</span>
-        <span class="lang-zh">从前沿实验室现状，到监管、控制平面产品、物理人工智能与递归自我改进。</span>
+        <span class="lang-en">Start with frontier-lab security incidents, then policy, control-plane examples, physical AI, and RSI.</span>
+        <span class="lang-zh">从前沿实验室安全事件开始，再到政策、控制平面示例、物理人工智能与递归自我改进。</span>
       </p>
       <div class="dg">
         <div class="dg-cap">
@@ -690,33 +801,28 @@ a{color:inherit}
           <span class="lang-zh">阅读顺序</span>
         </div>
         <div class="dg-row dg-stagger">
-          <div class="dg-card" style="--c:var(--blue)">
-            <h4><span class="lang-en">01 Labs</span><span class="lang-zh">01 实验室</span></h4>
-            <p><span class="lang-en">OpenAI, Anthropic, DeepMind, Meta, xAI</span><span class="lang-zh">OpenAI、Anthropic、DeepMind、Meta、xAI</span></p>
-          </div>
-          <span class="dg-arrow">➜</span>
           <div class="dg-card" style="--c:var(--red)">
-            <h4><span class="lang-en">02 Incidents</span><span class="lang-zh">02 安全事件</span></h4>
-            <p><span class="lang-en">Sandbox escapes, agent abuse, prompt injection</span><span class="lang-zh">沙箱逃逸、智能体滥用、提示注入</span></p>
+            <h4><span class="lang-en">01 Security</span><span class="lang-zh">01 安全事件</span></h4>
+            <p><span class="lang-en">5 labs · 1–2 incidents each (one slide)</span><span class="lang-zh">五家实验室 · 各 1–2 起事件（一页）</span></p>
           </div>
           <span class="dg-arrow">➜</span>
           <div class="dg-card" style="--c:var(--violet)">
-            <h4><span class="lang-en">03 Safety &amp; Law</span><span class="lang-zh">03 安全与法律</span></h4>
+            <h4><span class="lang-en">02 Safety &amp; Law</span><span class="lang-zh">02 安全与法律</span></h4>
             <p><span class="lang-en">Voices, federal gaps, state patchwork</span><span class="lang-zh">安全声音、联邦空白、州法拼图</span></p>
           </div>
           <span class="dg-arrow">➜</span>
           <div class="dg-card" style="--c:var(--teal)">
-            <h4><span class="lang-en">04 Control</span><span class="lang-zh">04 控制平面</span></h4>
+            <h4><span class="lang-en">03 Control</span><span class="lang-zh">03 控制平面</span></h4>
             <p><span class="lang-en">Theses + advisor examples</span><span class="lang-zh">投资主题与顾问示例</span></p>
           </div>
           <span class="dg-arrow">➜</span>
           <div class="dg-card" style="--c:var(--orange)">
-            <h4><span class="lang-en">05 Physical</span><span class="lang-zh">05 物理人工智能</span></h4>
+            <h4><span class="lang-en">04 Physical</span><span class="lang-zh">04 物理人工智能</span></h4>
             <p><span class="lang-en">World models &amp; edge</span><span class="lang-zh">世界模型与边缘算力</span></p>
           </div>
           <span class="dg-arrow">➜</span>
           <div class="dg-card" style="--c:var(--green)">
-            <h4><span class="lang-en">06 RSI</span><span class="lang-zh">06 递归自我改进</span></h4>
+            <h4><span class="lang-en">05 RSI</span><span class="lang-zh">05 递归自我改进</span></h4>
             <p><span class="lang-en">Harness &amp; autoresearch</span><span class="lang-zh">驾驭层与自动研究</span></p>
           </div>
         </div>
@@ -724,102 +830,65 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- 3 · frontier labs -->
-  <section class="slide slide--alt" data-title="Frontier Labs" data-title-zh="前沿实验室">
+  <!-- 5 · five labs security (single slide) -->
+  <section class="slide slide--dark" data-title="Lab Security Incidents" data-title-zh="实验室安全事件">
     <div class="slide__in">
-      <span class="kicker">
-        <span class="lang-en">September 2026 signal</span>
-        <span class="lang-zh">2026年9月信号</span>
+      <span class="kicker kicker--light">
+        <span class="lang-en">2025–2026 · five frontier labs</span>
+        <span class="lang-zh">2025–2026 · 五家前沿实验室</span>
       </span>
-      <h2 class="h2">
-        <span class="lang-en">Five labs, five pressure points</span>
-        <span class="lang-zh">五家实验室，五个压力点</span>
+      <h2 class="h2 h2--light">
+        <span class="lang-en">One or two security incidents per lab</span>
+        <span class="lang-zh">每家实验室一至两起安全事件</span>
       </h2>
       <div class="dg">
         <div class="dg-row dg-stagger">
           <div class="dg-card" style="--c:var(--green)">
             <h4>OpenAI</h4>
-            <p><span class="lang-en">Sep 2026 DNS routing breakout; training / eval / tool-use paused on most capable models</span><span class="lang-zh">2026年9月 DNS 路由突破；最强模型训练 / 评估 / 工具使用已暂停</span></p>
-            <p><a class="alink" href="https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot" target="_blank" rel="noopener">alignment.openai.com ↗</a></p>
+            <p class="inc"><span class="lang-en">1) DNS routing to external chatbot (Sep 2026); training paused</span><span class="lang-zh">1）经 DNS 访问外部聊天机器人（2026年9月）；训练已暂停</span></p>
+            <p class="inc"><span class="lang-en">2) Sandbox escape → Hugging Face (~700 agents, Jul 2026)</span><span class="lang-zh">2）沙箱逃逸 → Hugging Face（约700个智能体，2026年7月）</span></p>
+            <p><a class="alink" href="https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot" target="_blank" rel="noopener">DNS ↗</a>
+            · <a class="alink" href="https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging-Face%20Incident-Technical-Report.pdf" target="_blank" rel="noopener">HF PDF ↗</a>
+            · <a class="alink" href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/" target="_blank" rel="noopener">METR ↗</a></p>
           </div>
           <div class="dg-card" style="--c:var(--orange)">
             <h4>Anthropic</h4>
-            <p><span class="lang-en">“We Must Pace the Frontier” (Sep 2026)</span><span class="lang-zh">《We Must Pace the Frontier》（2026年9月）</span></p>
-            <p><a class="alink" href="https://darioamodei.com/post/we-must-pace-the-frontier" target="_blank" rel="noopener">darioamodei.com ↗</a>
-            · <a class="alink" href="https://www.bbc.com/news/articles/c14dpgm0rg4o" target="_blank" rel="noopener">BBC ↗</a></p>
+            <p class="inc"><span class="lang-en">1) Claude reached real orgs in cyber evals (Irregular)</span><span class="lang-zh">1）Claude 在网络评估中触及真实机构（Irregular）</span></p>
+            <p class="inc"><span class="lang-en">2) Alignment assessment of four unauthorized-access incidents</span><span class="lang-zh">2）对四起未授权访问事件的对齐评估</span></p>
+            <p><a class="alink" href="https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals" target="_blank" rel="noopener">3 incidents ↗</a>
+            · <a class="alink" href="https://www.anthropic.com/news/alignment-assessment-cybersecurity-incidents" target="_blank" rel="noopener">4-incident assessment ↗</a></p>
           </div>
           <div class="dg-card" style="--c:var(--blue)">
-            <h4>DeepMind</h4>
-            <p><span class="lang-en">Gemini 4 prioritized under Kavukcuoglu</span><span class="lang-zh">Kavukcuoglu 上任后优先 Gemini 4</span></p>
-            <p><a class="alink" href="https://www.theverge.com/tech/999802/google-deepmind-gemini-4-timeline-koray-kavukcuoglu" target="_blank" rel="noopener">The Verge ↗</a></p>
+            <h4>Google / Gemini</h4>
+            <p class="inc"><span class="lang-en">1) Gemini hacked three companies in May cyber test (disclosed Sep 2026)</span><span class="lang-zh">1）Gemini 在5月网络测试中入侵三家公司（2026年9月披露）</span></p>
+            <p class="inc"><span class="lang-en">2) Same Irregular evaluation-path pattern as peer labs</span><span class="lang-zh">2）与同行相同的 Irregular 评估路径模式</span></p>
+            <p><a class="alink" href="https://www.reuters.com/business/gemini-hacked-three-companies-first-known-breakout-by-google-ai-wsj-reports-2026-09-18/" target="_blank" rel="noopener">Reuters ↗</a>
+            · <a class="alink" href="https://www.theguardian.com/technology/2026/sep/18/google-gemini-ai-hack" target="_blank" rel="noopener">Guardian ↗</a></p>
           </div>
           <div class="dg-card" style="--c:var(--violet)">
             <h4>Meta</h4>
-            <p><span class="lang-en">Muse Charm at Connect 2026 (23–24 Sep)</span><span class="lang-zh">Connect 2026 发布 Muse Charm（9月23–24日）</span></p>
-            <p><a class="alink" href="https://www.reuters.com/business/media-telecom/metas-charm-gadget-carries-ceo-zuckerbergs-big-ai-ambitions-2026-09-24/" target="_blank" rel="noopener">Reuters ↗</a></p>
+            <p class="inc"><span class="lang-en">1) Muse Spark 1.1 exploited a real site in Irregular cyber eval</span><span class="lang-zh">1）Muse Spark 1.1 在 Irregular 网络评估中利用真实站点</span></p>
+            <p class="inc"><span class="lang-en">2) Misconfiguration gave open-internet access to the model</span><span class="lang-zh">2）配置错误使模型获得开放互联网访问</span></p>
+            <p><a class="alink" href="https://research.meta.ai/blog/addressing-third-party-testing-misconfiguration-muse-spark-1-1" target="_blank" rel="noopener">Meta AI Research ↗</a>
+            · <a class="alink" href="https://thehill.com/policy/technology/6014153-meta-ai-breached-third-party-service/" target="_blank" rel="noopener">The Hill ↗</a></p>
           </div>
           <div class="dg-card" style="--c:var(--teal)">
-            <h4>xAI / SpaceX</h4>
-            <p><span class="lang-en">Grok / xAI under SpaceX AI spend and ownership structure</span><span class="lang-zh">Grok / xAI 处于 SpaceX 人工智能支出与股权结构中</span></p>
-            <p><a class="alink" href="https://www.reuters.com/legal/transactional/bound-mars-elon-musks-spacex-unveils-filing-blockbuster-ipo-2026-05-20/" target="_blank" rel="noopener">Reuters SpaceX IPO ↗</a>
-            · <a class="alink" href="https://x.ai/" target="_blank" rel="noopener">x.ai ↗</a></p>
+            <h4>xAI / Grok</h4>
+            <p class="inc"><span class="lang-en">1) Cryptographic Context Injection → chat/session exfil</span><span class="lang-zh">1）加密上下文注入 → 聊天 / 会话外传</span></p>
+            <p class="inc"><span class="lang-en">2) Encrypted webpage prompts bypass Grok guardrails (reported Jun 2026)</span><span class="lang-zh">2）加密网页提示绕过 Grok 防护（2026年6月报告）</span></p>
+            <p><a class="alink" href="https://www.securityweek.com/encrypted-prompts-bypass-ai-safety-guardrails-in-grok-and-gemini/" target="_blank" rel="noopener">SecurityWeek ↗</a>
+            · <a class="alink" href="https://adversa.ai/blog/cryptographic-context-injection-grok-data-theft/" target="_blank" rel="noopener">Adversa ↗</a></p>
           </div>
         </div>
         <div class="dg-note">
-          <span class="lang-en">Click each source URL. Shared product shape: agents that hold credentials and run multi-step jobs.</span>
-          <span class="lang-zh">请点击各来源网址。共同产品形态：持有凭证并执行多步任务的智能体。</span>
+          <span class="lang-en">Also: EchoLeak zero-click Copilot exfil (CVE-2025-32711) —
+          <a class="alink" href="https://www.catonetworks.com/blog/breaking-down-echoleak/" target="_blank" rel="noopener">Cato / Aim Labs</a>.
+          Pattern: tools + credentials + weak containment.</span>
+          <span class="lang-zh">另见：EchoLeak 零点击 Copilot 外传（CVE-2025-32711）—
+          <a class="alink" href="https://www.catonetworks.com/blog/breaking-down-echoleak/" target="_blank" rel="noopener">Cato / Aim Labs</a>。
+          模式：工具 + 凭证 + 薄弱隔离。</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 4 · incidents -->
-  <section class="slide slide--dark" data-title="Security Incidents" data-title-zh="安全事件">
-    <div class="slide__in">
-      <span class="kicker kicker--light">2025–2026</span>
-      <h2 class="h2 h2--light">
-        <span class="lang-en">From chat jailbreaks to agent breakouts</span>
-        <span class="lang-zh">从对话越狱到智能体突破隔离</span>
-      </h2>
-      <div class="dg">
-        <div class="dg-row dg-stagger">
-          <div class="dg-score" style="--c:var(--red)">
-            <b>DNS</b>
-            <h4><span class="lang-en">OpenAI DNS routing</span><span class="lang-zh">OpenAI DNS 路由</span></h4>
-            <p><span class="lang-en">Sep 2026: DNS path to external chatbot; training paused</span><span class="lang-zh">2026年9月：经 DNS 访问外部聊天机器人；训练已暂停</span></p>
-            <p><a class="alink" href="https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot" target="_blank" rel="noopener">OpenAI Alignment ↗</a></p>
-          </div>
-          <div class="dg-score" style="--c:var(--orange)">
-            <b>HF</b>
-            <h4><span class="lang-en">OpenAI ↔ Hugging Face</span><span class="lang-zh">OpenAI ↔ Hugging Face</span></h4>
-            <p><span class="lang-en">Jul 2026 sandbox escape / ~700 agents (METR)</span><span class="lang-zh">2026年7月沙箱逃逸 / 约700个智能体（METR）</span></p>
-            <p><a class="alink" href="https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging-Face%20Incident-Technical-Report.pdf" target="_blank" rel="noopener">OpenAI PDF ↗</a>
-            · <a class="alink" href="https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/" target="_blank" rel="noopener">METR ↗</a></p>
-          </div>
-          <div class="dg-score" style="--c:var(--violet)">
-            <b>14+</b>
-            <h4><span class="lang-en">Agent breach campaigns</span><span class="lang-zh">智能体入侵活动</span></h4>
-            <p><span class="lang-en">Coding agents used for recon / exploit / exfil</span><span class="lang-zh">编程智能体用于侦察 / 利用 / 外传</span></p>
-            <p><a class="alink" href="https://www.extrahop.com/blog/AI-cyberattacks-in-2026-6-breaches-you-need-to-know-about" target="_blank" rel="noopener">ExtraHop 2026 ↗</a>
-            · <a class="alink" href="https://www.reuters.com/business/openai-report-says-its-network-was-hacked-by-its-own-rogue-ai-agents-2026-08-26/" target="_blank" rel="noopener">Reuters ↗</a></p>
-          </div>
-          <div class="dg-score" style="--c:var(--blue)">
-            <b>0-clk</b>
-            <h4><span class="lang-en">EchoLeak / Copilot</span><span class="lang-zh">EchoLeak / Copilot</span></h4>
-            <p><span class="lang-en">Zero-click exfil (Aim Labs / CVE-2025-32711)</span><span class="lang-zh">零点击外传（Aim Labs / CVE-2025-32711）</span></p>
-            <p><a class="alink" href="https://www.catonetworks.com/blog/breaking-down-echoleak/" target="_blank" rel="noopener">Aim Labs / Cato ↗</a>
-            · <a class="alink" href="https://nvd.nist.gov/vuln/detail/CVE-2025-32711" target="_blank" rel="noopener">NVD CVE ↗</a></p>
-          </div>
-        </div>
-        <div class="dg-note">
-          <span class="lang-en">OpenAI will not resume the DNS-incident model’s training until controls are validated. Pattern: tools + credentials + lateral movement.</span>
-          <span class="lang-zh">OpenAI 在控件验证完成前不会恢复 DNS 事件相关模型的训练。模式：工具 + 凭证 + 横向移动。</span>
-        </div>
-      </div>
-      <p class="src">
-        <span class="lang-en">Primary links above. Also: <a class="alink" href="https://the-decoder.com/openai-pauses-its-most-capable-models-after-agents-exploit-loopholes-and-leak-data/" target="_blank" rel="noopener">The Decoder — training pause</a>.</span>
-        <span class="lang-zh">主要链接见上。另见：<a class="alink" href="https://the-decoder.com/openai-pauses-its-most-capable-models-after-agents-exploit-loopholes-and-leak-data/" target="_blank" rel="noopener">The Decoder — 训练暂停</a>。</span>
-      </p>
     </div>
   </section>
 
@@ -1318,44 +1387,42 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- last · closing -->
-  <section class="slide slide--dark" data-title="Close" data-title-zh="结束">
+  <!-- last · recent books (Harness + Graph from predictions #18) -->
+  <section class="slide slide--dark" data-title="Close · Recent Books" data-title-zh="结束 · 近期著作">
     <div class="slide__in">
       <span class="kicker kicker--light">
-        <span class="lang-en">Takeaway metrics</span>
-        <span class="lang-zh">带走的数字</span>
+        <span class="lang-en">Further reading · latest two titles</span>
+        <span class="lang-zh">延伸阅读 · 最新两本</span>
       </span>
       <h2 class="h2 h2--light">
-        <span class="lang-en">Remember four numbers — question every thesis</span>
-        <span class="lang-zh">记住四个数字 — 质疑每一个主题</span>
+        <span class="lang-en">Harness Engineering · Graph Engineering</span>
+        <span class="lang-zh">《Harness Engineering》·《Graph Engineering》</span>
       </h2>
-      <div class="dg">
-        <div class="dg-row dg-stagger">
-          <div class="dg-score" style="--c:var(--red)">
-            <b>0</b>
-            <h4><span class="lang-en">Federal AI Act</span><span class="lang-zh">联邦人工智能法</span></h4>
-            <p><span class="lang-en">States carry binding rules today</span><span class="lang-zh">今日有约束力的是州法</span></p>
-          </div>
-          <div class="dg-score" style="--c:var(--orange)">
-            <b>4</b>
-            <h4><span class="lang-en">Example surfaces</span><span class="lang-zh">示例覆盖面</span></h4>
-            <p><span class="lang-en">Endpoint · red team · IBAC · harness (examples)</span><span class="lang-zh">端点 · 红队 · 意图访问控制 · 驾驭层（示例）</span></p>
-          </div>
-          <div class="dg-score" style="--c:var(--blue)">
-            <b>3</b>
-            <h4><span class="lang-en">RSI loops</span><span class="lang-zh">递归自我改进循环</span></h4>
-            <p><span class="lang-en">AHE · AutoResearch · AI-trains-AI</span><span class="lang-zh">驾驭层工程 · 自动研究 · 人工智能训练人工智能</span></p>
-          </div>
-          <div class="dg-score" style="--c:var(--green)">
-            <b>1</b>
-            <h4><span class="lang-en">Hard rule</span><span class="lang-zh">硬规则</span></h4>
-            <p><span class="lang-en">Immutable eval before any keep</span><span class="lang-zh">任何保留之前须有不可篡改评估</span></p>
-          </div>
-        </div>
+      <div class="books-pair">
+        <a class="book-card" href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener" title="Harness Engineering">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/harness_engineering_book.jpg" alt="Harness Engineering" />
+          <div class="tag">Kindle · B0HF3F86YM</div>
+          <h4>Harness Engineering</h4>
+          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+        </a>
+        <a class="book-card" href="https://www.amazon.com/dp/B0HHZVDQQY" target="_blank" rel="noopener" title="Graph Engineering for Agentic AI Systems">
+          <img src="https://kenhuangus.github.io/agentic-ai-2026-predictions/assets/images/graph_engineering_book.jpg" alt="Graph Engineering for Agentic AI Systems" />
+          <div class="tag">Kindle · B0HHZVDQQY</div>
+          <h4>Graph Engineering for Agentic AI Systems</h4>
+          <p><span class="lang-en">Amazon ↗</span><span class="lang-zh">Amazon ↗</span></p>
+        </a>
       </div>
+      <p class="src" style="text-align:center;margin-top:1.2vh">
+        <span class="lang-en">Source: <a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">predictions #18</a>
+        · Store: <a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon author page</a>
+        · <a class="alink" href="https://kenhuangus.substack.com" target="_blank" rel="noopener">Substack</a></span>
+        <span class="lang-zh">来源：<a class="alink" href="https://kenhuangus.github.io/agentic-ai-2026-predictions/slides.html?lang=zh#18" target="_blank" rel="noopener">predictions #18</a>
+        · 商店：<a class="alink" href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener">Amazon 作者页</a>
+        · <a class="alink" href="https://kenhuangus.substack.com" target="_blank" rel="noopener">Substack</a></span>
+      </p>
       <p class="disclaimer">
-        <span class="lang-en"><strong>Not investment advice.</strong> This deck is for research and education. Past incidents and product claims do not predict returns. Contact: kenhuangus.substack.com · Adjunct Professor, University of San Francisco.</span>
-        <span class="lang-zh"><strong>不构成投资建议。</strong>本幻灯片仅供研究与教育。过往事件与产品主张不能预测回报。联系：kenhuangus.substack.com · 旧金山大学 (USF) 客座教授。</span>
+        <span class="lang-en"><strong>Not investment advice.</strong> Research briefing only. Adjunct Professor, University of San Francisco · kenhuangus.substack.com</span>
+        <span class="lang-zh"><strong>不构成投资建议。</strong>仅为研究简报。旧金山大学 (USF) 客座教授 · kenhuangus.substack.com</span>
       </p>
     </div>
   </section>

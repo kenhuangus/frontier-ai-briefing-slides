@@ -147,11 +147,32 @@ a{color:inherit}
 .ctrl__btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .ctrl__btn--accent{background:var(--accent);border-color:var(--accent);color:#fff;
   box-shadow:0 6px 18px rgba(255,106,43,.35)}
-.ctrl__count{font-family:var(--hand);color:#9aa2b1;font-size:1rem;min-width:54px;text-align:center}
-.dots{display:flex;gap:.5rem}
+.ctrl__count{font-family:'Space Grotesk',sans-serif;font-weight:600;color:#eceef2;font-size:1rem;min-width:4.5rem;text-align:center;letter-spacing:.02em}
+.ctrl__count b{color:var(--accent-2);font-weight:700}
+.dots{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center;max-width:min(42vw,420px)}
 .dot{width:9px;height:9px;border-radius:50%;background:#39435a;border:none;padding:0;cursor:pointer;transition:all .2s}
 .dot.is-on{background:var(--accent);transform:scale(1.25)}
 .progress{position:fixed;left:0;bottom:0;height:3px;background:var(--accent);width:0;z-index:41;transition:width .35s}
+
+/* On-slide number badge */
+.slide-num{position:absolute;top:1.2vh;right:2.2vw;z-index:5;font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:clamp(.85rem,1.8vh,1.05rem);letter-spacing:.04em;
+  color:var(--muted);background:rgba(253,252,249,.85);border:1px solid var(--line);
+  border-radius:999px;padding:.28rem .7rem;pointer-events:none;user-select:none}
+.slide--dark .slide-num,.slide--title .slide-num{color:#cdd2db;background:rgba(17,21,31,.72);border-color:#2a3344}
+.slide-num b{color:var(--accent)}
+.slide--dark .slide-num b,.slide--title .slide-num b{color:var(--accent-2)}
+
+/* Side forward / backward hit targets */
+.nav-side{position:fixed;top:var(--bar-h);bottom:var(--ctrl-h);width:min(7vw,72px);z-index:35;
+  display:flex;align-items:center;justify-content:center;border:none;background:transparent;
+  color:#9aa2b1;cursor:pointer;padding:0;transition:color .15s,background .15s}
+.nav-side:hover{color:#fff;background:rgba(255,106,43,.08)}
+.nav-side:disabled{opacity:0;pointer-events:none}
+.nav-side--prev{left:0}
+.nav-side--next{right:0}
+.nav-side span{font-size:clamp(1.6rem,3.5vh,2.2rem);font-weight:700;line-height:1;
+  font-family:'Space Grotesk',sans-serif;text-shadow:0 2px 10px rgba(0,0,0,.25)}
 
 /* ---------- responsive ---------- */
 @media(max-width:820px){
@@ -162,10 +183,11 @@ a{color:inherit}
   .ftable{font-size:.72rem}
   .bar__title{display:none}
   .draw--hero svg{max-height:54vh}
+  .nav-side{width:44px}
 }
 @media(max-width:560px){
-  .ctrl__count{display:none}
   .dots{display:none}
+  .ctrl__count{min-width:3.6rem;font-size:.9rem}
 }
 
 /* ===== diagrams.css ===== */
@@ -1340,13 +1362,16 @@ a{color:inherit}
 
 </main>
 
-<nav class="ctrl">
-  <button class="ctrl__btn" id="prevBtn" aria-label="Previous slide">
+<button type="button" class="nav-side nav-side--prev" id="sidePrev" aria-label="Previous slide"><span>‹</span></button>
+<button type="button" class="nav-side nav-side--next" id="sideNext" aria-label="Next slide"><span>›</span></button>
+
+<nav class="ctrl" aria-label="Slide navigation">
+  <button type="button" class="ctrl__btn" id="prevBtn" aria-label="Previous slide">
     <span class="lang-en">‹ Prev</span><span class="lang-zh">‹ 上一张</span>
   </button>
   <div class="dots" id="dots"></div>
-  <span class="ctrl__count" id="count">1 / 1</span>
-  <button class="ctrl__btn ctrl__btn--accent" id="nextBtn" aria-label="Next slide">
+  <span class="ctrl__count" id="count" aria-live="polite"><b>1</b> / 1</span>
+  <button type="button" class="ctrl__btn ctrl__btn--accent" id="nextBtn" aria-label="Next slide">
     <span class="lang-en">Next ›</span><span class="lang-zh">下一张 ›</span>
   </button>
 </nav>
@@ -1359,15 +1384,31 @@ a{color:inherit}
   const total = slides.length;
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
+  const sidePrev = document.getElementById("sidePrev");
+  const sideNext = document.getElementById("sideNext");
   const count = document.getElementById("count");
   const dotsWrap = document.getElementById("dots");
   const progress = document.getElementById("progress");
   const title = document.getElementById("slideTitle");
 
+  // Per-slide number badges (1 … N)
+  slides.forEach((s, i) => {
+    const badge = document.createElement("div");
+    badge.className = "slide-num";
+    badge.setAttribute("aria-hidden", "true");
+    badge.innerHTML = "<b>" + (i + 1) + "</b> / " + total;
+    s.appendChild(badge);
+    s.setAttribute("data-slide-index", String(i + 1));
+    s.setAttribute("aria-label", "Slide " + (i + 1) + " of " + total);
+  });
+
   // build dots
   slides.forEach((_, i) => {
     const d = document.createElement("button");
-    d.className = "dot"; d.setAttribute("aria-label", "Go to slide " + (i + 1));
+    d.type = "button";
+    d.className = "dot";
+    d.setAttribute("aria-label", "Go to slide " + (i + 1));
+    d.title = String(i + 1);
     d.addEventListener("click", () => go(i));
     dotsWrap.appendChild(d);
   });
@@ -1377,6 +1418,11 @@ a{color:inherit}
 
   function clamp(i) { return Math.max(0, Math.min(total - 1, i)); }
 
+  function setDisabled(btn, on) {
+    if (!btn) return;
+    btn.disabled = on;
+  }
+
   function go(i) {
     i = clamp(i);
     slides.forEach((s, idx) => {
@@ -1385,11 +1431,16 @@ a{color:inherit}
     });
     dots.forEach((d, idx) => d.classList.toggle("is-on", idx === i));
     cur = i;
-    count.textContent = (i + 1) + " / " + total;
-    title.textContent = slides[i].dataset.title || "";
-    progress.style.width = ((i) / (total - 1) * 100) + "%";
-    prevBtn.disabled = i === 0;
-    nextBtn.disabled = i === total - 1;
+    count.innerHTML = "<b>" + (i + 1) + "</b> / " + total;
+    const lang = document.documentElement.getAttribute("data-lang") === "zh" ? "zh" : "en";
+    const zh = slides[i].getAttribute("data-title-zh") || "";
+    const en = slides[i].getAttribute("data-title") || "";
+    title.textContent = lang === "zh" ? (zh || en) : en;
+    progress.style.width = (total <= 1 ? 100 : (i / (total - 1) * 100)) + "%";
+    setDisabled(prevBtn, i === 0);
+    setDisabled(nextBtn, i === total - 1);
+    setDisabled(sidePrev, i === 0);
+    setDisabled(sideNext, i === total - 1);
     if (history.replaceState) history.replaceState(null, "", "#" + (i + 1));
   }
 
@@ -1397,18 +1448,30 @@ a{color:inherit}
   const prev = () => go(cur - 1);
   nextBtn.addEventListener("click", next);
   prevBtn.addEventListener("click", prev);
+  if (sideNext) sideNext.addEventListener("click", next);
+  if (sidePrev) sidePrev.addEventListener("click", prev);
 
-  // keyboard
+  // keyboard: arrows / space / page keys; digit jump 1–9
   document.addEventListener("keydown", e => {
+    const tag = (e.target && e.target.tagName) || "";
+    if (/input|textarea|select/i.test(tag) || (e.target && e.target.isContentEditable)) return;
     if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); next(); }
-    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); prev(); }
-    else if (e.key === "Home") go(0);
-    else if (e.key === "End") go(total - 1);
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === "Home") { e.preventDefault(); go(0); }
+    else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+    else if (/^[1-9]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const n = parseInt(e.key, 10);
+      if (n <= total) { e.preventDefault(); go(n - 1); }
+    }
   });
 
-  // touch swipe
+  // touch swipe (ignore when starting on a link/button)
   let x0 = null;
-  document.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener("touchstart", e => {
+    const t = e.target;
+    if (t && t.closest && t.closest("a, button, input, textarea, select")) { x0 = null; return; }
+    x0 = e.touches[0].clientX;
+  }, { passive: true });
   document.addEventListener("touchend", e => {
     if (x0 === null) return;
     const dx = e.changedTouches[0].clientX - x0;
@@ -1424,6 +1487,12 @@ a{color:inherit}
     wheelLock = true; setTimeout(() => (wheelLock = false), 650);
     (e.deltaY > 0 || e.deltaX > 0) ? next() : prev();
   }, { passive: true });
+
+  // hash changes (browser back/forward on #n)
+  window.addEventListener("hashchange", () => {
+    const n = parseInt((location.hash || "").replace("#", ""), 10);
+    if (!isNaN(n)) go(n - 1);
+  });
 
   // deep-link via hash
   const start = parseInt((location.hash || "").replace("#", ""), 10);
